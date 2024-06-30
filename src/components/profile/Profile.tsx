@@ -5,7 +5,7 @@ import {Posts} from "./posts/Posts.tsx";
 
 export const Profile = () => {
   return (
-    <div className={s.mainContent}>
+    <div>
       <div>
         <img className={s.mainImage} src={mainImage} alt=""/>
       </div>
