@@ -1,7 +1,7 @@
 import './App.css';
-import {Header} from "./components/Header.tsx";
-import {NavBar} from "./components/NavBar.tsx";
-import {Profile} from "./components/Profile.tsx";
+import {Header} from "./components/header/Header.tsx";
+import {NavBar} from "./components/navbar/NavBar.tsx";
+import {Profile} from "./components/profile/Profile.tsx";
 
 // @TODO Why CSS doesn't work with "-", only camelCase
 
