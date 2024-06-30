@@ -1,6 +1,13 @@
 .navBar {
   grid-area: nav-bar;
   background-color: darkgreen;
+  padding: 24px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .item a {
@@ -9,4 +16,8 @@
 
 .item a:hover {
   color: #535bf2;
+}
+
+.item a.active {
+  color: darkgoldenrod;
 }
