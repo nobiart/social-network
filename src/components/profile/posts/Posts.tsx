@@ -10,11 +10,11 @@ export const Posts = () => {
         <button className={s.submit}>Add New Post</button>
       </div>
       <div className={s.posts}>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
+        <Post message="Hi, how are you?" likes={0}/>
+        <Post message="It's OK, thanks!" likes={1}/>
+        <Post message="Thanks!" likes={3}/>
+        <Post message="My nth Post" likes={5}/>
+        <Post message="Hello, World!" likes={8}/>
       </div>
     </div>
   )

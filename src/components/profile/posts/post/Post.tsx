@@ -1,12 +1,20 @@
 import s from './Post.module.css';
-import userpic from '../../../../assets/username.png';
+import userPic from '../../../../assets/username.png';
 
-export const Post = () => {
+interface IProps {
+  message: string;
+  likes?: number;
+}
+
+export const Post = ({message, likes}: IProps) => {
   return (
     <div className={s.item}>
-      <img className={s.userPic} src={userpic} alt=""/>
-      Post 1
-      <div>Like</div>
+      <img className={s.userPic} src={userPic} alt=""/>
+      {message}
+      <div>
+        Like
+        <span>{likes}</span>
+      </div>
     </div>
   )
 };
