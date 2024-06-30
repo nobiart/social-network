@@ -1,3 +1,25 @@
-.dialogs {
+.dialogsContainer {
+  display: grid;
+  grid-template-columns: 2fr 10fr;
   background-color: aliceblue;
+}
+
+.dialogs {
+  padding: 16px;
+}
+
+.dialog {
+}
+
+.activeDialog {
+  color: burlywood;
+}
+
+.messages {
+  padding: 16px;
+
+}
+
+.message {
+
 }
