@@ -1,0 +1,16 @@
+.mainContent {
+  grid-area: main-content;
+  background-color: antiquewhite;
+}
+
+.mainImage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.userImage {
+  max-width: 80px;
+  max-height: 80px;
+  object-fit: cover;
+}
