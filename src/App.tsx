@@ -18,7 +18,7 @@ export const App = () => {
       <div className='app-content'>
         <Routes>
           <Route element={<Profile/>} path="/profile"/>
-          <Route element={<Dialogs/>} path="/dialogs"/>
+          <Route element={<Dialogs/>} path="/dialogs/*"/>
           <Route element={<News/>} path="/news"/>
           <Route element={<Music/>} path="/music"/>
           <Route element={<Settings/>} path="/settings"/>
