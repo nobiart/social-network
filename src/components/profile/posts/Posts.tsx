@@ -3,10 +3,12 @@ import {Post} from "./post/Post.tsx";
 
 export const Posts = () => {
   return (
-    <div>
-      My Posts
+    <div className={s.container}>
+      <h3>My Posts</h3>
       <div>
-        <textarea name="newPost" id=""></textarea>
+        <div>
+          <textarea name="newPost" id=""></textarea>
+        </div>
         <button className={s.submit}>Add New Post</button>
       </div>
       <div className={s.posts}>
