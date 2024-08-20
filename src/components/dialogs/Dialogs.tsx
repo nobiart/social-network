@@ -2,8 +2,8 @@ import s from './Dialogs.module.css';
 import {NavLink} from "react-router-dom";
 
 interface IDialogItemProps {
-  name: string;
   id: string
+  name: string;
 }
 
 const DialogItem = ({name, id}: IDialogItemProps) => {
@@ -15,6 +15,7 @@ const DialogItem = ({name, id}: IDialogItemProps) => {
 }
 
 interface IMessage {
+  id: string;
   text: string;
 }
 
@@ -27,17 +28,28 @@ const Message = ({text}: IMessage) => {
 }
 
 export const Dialogs = () => {
+  const dialogs: IDialogItemProps[] = [
+    {id: "1", name: "Ivan"},
+    {id: "2", name: "Petya"},
+    {id: "3", name: "Jora"},
+  ];
+
+  const messages: IMessage[] = [
+    {id: "1", text: "Message 1"},
+    {id: "2", text: "Message 2"},
+    {id: "3", text: "Message 3"},
+  ];
+
+  const dialogsElement = dialogs.map(d => <DialogItem id={d.id} name={d.name}/>);
+  const messagesElements = messages.map(m => <Message id={m.id} text={m.text}/>);
+
   return (
     <div className={s.dialogsContainer}>
       <div className={s.dialogs}>
-        <DialogItem name="Ivan" id="1"/>
-        <DialogItem name="Petya" id="2"/>
-        <DialogItem name="Jora" id="3"/>
+        {dialogsElement}
       </div>
       <div className={s.messages}>
-        <Message text="Message 1"/>
-        <Message text="Message 2"/>
-        <Message text="Message 3"/>
+        {messagesElements}
       </div>
     </div>
   )
