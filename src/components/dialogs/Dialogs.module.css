@@ -8,18 +8,11 @@
   padding: 16px;
 }
 
-.dialog {
-}
-
 .activeDialog {
   color: burlywood;
 }
 
 .messages {
   padding: 16px;
-
-}
-
-.message {
 
 }

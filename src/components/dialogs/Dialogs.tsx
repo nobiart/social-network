@@ -1,31 +1,6 @@
 import s from './Dialogs.module.css';
-import {NavLink} from "react-router-dom";
-
-interface IDialogItemProps {
-  id: string
-  name: string;
-}
-
-const DialogItem = ({name, id}: IDialogItemProps) => {
-  return (
-    <div className={s.dialog}>
-      <NavLink to={`/dialogs/${id}`}>{name}</NavLink>
-    </div>
-  )
-}
-
-interface IMessage {
-  id: string;
-  text: string;
-}
-
-const Message = ({text}: IMessage) => {
-  return (
-    <div className={s.message}>
-      {text}
-    </div>
-  )
-}
+import {DialogItem, IDialogItemProps} from "./dialogItem/DialogItem.tsx";
+import {IMessage, Message} from "./message/Message.tsx";
 
 export const Dialogs = () => {
   const dialogs: IDialogItemProps[] = [
@@ -40,17 +15,14 @@ export const Dialogs = () => {
     {id: "3", text: "Message 3"},
   ];
 
-  const dialogsElement = dialogs.map(d => <DialogItem id={d.id} name={d.name}/>);
-  const messagesElements = messages.map(m => <Message id={m.id} text={m.text}/>);
-
   return (
     <div className={s.dialogsContainer}>
       <div className={s.dialogs}>
-        {dialogsElement}
+        {dialogs.map(d => <DialogItem id={d.id} name={d.name}/>)}
       </div>
       <div className={s.messages}>
-        {messagesElements}
+        {messages.map(m => <Message id={m.id} text={m.text}/>)}
       </div>
     </div>
   )
-}
+};
