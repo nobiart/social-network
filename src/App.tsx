@@ -7,18 +7,27 @@ import {Profile} from "./components/profile/Profile.tsx";
 import {News} from "./components/news/News.tsx";
 import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
+import {IDialogItemProps} from "./components/dialogs/dialogItem/DialogItem.tsx";
+import {IMessage} from "./components/dialogs/message/Message.tsx";
+import {IPostProps} from "./components/profile/posts/post/Post.tsx";
 
 // @TODO Why CSS doesn't work with "-", only camelCase
 
-export const App = () => {
+export interface IAppProps {
+  dialogs: IDialogItemProps[];
+  messages: IMessage[];
+  posts: IPostProps[];
+}
+
+export const App = ({dialogs, messages, posts}: IAppProps) => {
   return (
     <div className="app-wrapper">
       <Header/>
       <NavBar/>
       <div className='app-content'>
         <Routes>
-          <Route element={<Profile/>} path="/profile"/>
-          <Route element={<Dialogs/>} path="/dialogs/*"/>
+          <Route element={<Profile posts={posts}/>} path="/profile"/>
+          <Route element={<Dialogs dialogs={dialogs} messages={messages}/>} path="/dialogs/*"/>
           <Route element={<News/>} path="/news"/>
           <Route element={<Music/>} path="/music"/>
           <Route element={<Settings/>} path="/settings"/>

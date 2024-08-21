@@ -2,18 +2,12 @@ import s from './Dialogs.module.css';
 import {DialogItem, IDialogItemProps} from "./dialogItem/DialogItem.tsx";
 import {IMessage, Message} from "./message/Message.tsx";
 
-export const Dialogs = () => {
-  const dialogs: IDialogItemProps[] = [
-    {id: "1", name: "Ivan"},
-    {id: "2", name: "Petya"},
-    {id: "3", name: "Jora"},
-  ];
+interface IDialogsProps {
+  dialogs: IDialogItemProps[];
+  messages: IMessage[];
+}
 
-  const messages: IMessage[] = [
-    {id: "1", text: "Message 1"},
-    {id: "2", text: "Message 2"},
-    {id: "3", text: "Message 3"},
-  ];
+export const Dialogs = ({dialogs, messages}: IDialogsProps) => {
 
   return (
     <div className={s.dialogsContainer}>
