@@ -6,13 +6,14 @@ interface IProfileProps {
   state: {
     posts: IPostProps[];
   }
+  addPost: (v: string) => void;
 }
 
-export const Profile = ({state}: IProfileProps) => {
+export const Profile = ({state, addPost}: IProfileProps) => {
   return (
     <div>
       <ProfileInfo/>
-      <Posts posts={state.posts}/>
+      <Posts posts={state.posts} addPost={addPost}/>
     </div>
   )
 };

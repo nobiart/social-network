@@ -21,3 +21,13 @@ export const state = {
     ]
   }
 };
+
+export const addPost = (postMessage: string) => {
+  const newPost = {
+    id: String(state.profilePage.posts.length + 2),
+    message: postMessage,
+    likes: 0
+  }
+
+  state.profilePage.posts.push(newPost);
+}
