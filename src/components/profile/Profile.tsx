@@ -3,14 +3,16 @@ import {ProfileInfo} from "./info/ProfileInfo.tsx";
 import {IPostProps} from "./posts/post/Post.tsx";
 
 interface IProfileProps {
-  posts: IPostProps[];
+  state: {
+    posts: IPostProps[];
+  }
 }
 
-export const Profile = ({posts}: IProfileProps) => {
+export const Profile = ({state}: IProfileProps) => {
   return (
     <div>
       <ProfileInfo/>
-      <Posts posts={posts}/>
+      <Posts posts={state.posts}/>
     </div>
   )
 };

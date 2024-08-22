@@ -13,21 +13,27 @@ import {IPostProps} from "./components/profile/posts/post/Post.tsx";
 
 // @TODO Why CSS doesn't work with "-", only camelCase
 
-export interface IAppProps {
-  dialogs: IDialogItemProps[];
-  messages: IMessage[];
-  posts: IPostProps[];
+interface IState {
+  state: {
+    profilePage: {
+      posts: IPostProps[];
+    }
+    dialogsPage: {
+      dialogs: IDialogItemProps[];
+      messages: IMessage[];
+    }
+  }
 }
 
-export const App = ({dialogs, messages, posts}: IAppProps) => {
+export const App = ({state}: IState) => {
   return (
     <div className="app-wrapper">
       <Header/>
       <NavBar/>
       <div className='app-content'>
         <Routes>
-          <Route element={<Profile posts={posts}/>} path="/profile"/>
-          <Route element={<Dialogs dialogs={dialogs} messages={messages}/>} path="/dialogs/*"/>
+          <Route element={<Profile state={state.profilePage}/>} path="/profile"/>
+          <Route element={<Dialogs state={state.dialogsPage}/>} path="/dialogs/*"/>
           <Route element={<News/>} path="/news"/>
           <Route element={<Music/>} path="/music"/>
           <Route element={<Settings/>} path="/settings"/>
