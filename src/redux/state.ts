@@ -1,3 +1,5 @@
+import {renderEntireTree} from "../render.tsx";
+
 export const state = {
   profilePage: {
     posts: [
@@ -30,4 +32,6 @@ export const addPost = (postMessage: string) => {
   }
 
   state.profilePage.posts.push(newPost);
+
+  renderEntireTree({state, addPost});
 }

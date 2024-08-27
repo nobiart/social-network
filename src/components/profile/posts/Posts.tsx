@@ -13,8 +13,9 @@ export const Posts = ({posts, addPost}: IPostsProps) => {
   const newPostElement = useRef<HTMLTextAreaElement>(null);
 
   const addPostHandler = () => {
-    const text = newPostElement.current?.value;
-    text && addPost(text);
+    let text = newPostElement.current?.value ?? '';
+    text.length > 1 && addPost(text);
+    text = '';
   }
 
   return (

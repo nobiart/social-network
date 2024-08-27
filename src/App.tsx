@@ -13,7 +13,7 @@ import {IPostProps} from "./components/profile/posts/post/Post.tsx";
 
 // @TODO Why CSS doesn't work with "-", only camelCase
 
-interface IState {
+export interface IState {
   state: {
     profilePage: {
       posts: IPostProps[];
