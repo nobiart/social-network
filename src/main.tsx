@@ -1,4 +1,4 @@
 import {renderEntireTree} from "./render.tsx";
-import {addPost, state} from "./redux/state.ts";
+import {addPost, state, updateNewPostText} from "./redux/state.ts";
 
-renderEntireTree({state, addPost});
+renderEntireTree({state, addPost, updateNewPostText});

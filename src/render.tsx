@@ -8,7 +8,7 @@ export const renderEntireTree = (state: IState) => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <BrowserRouter>
-        <App state={state.state} addPost={state.addPost}/>
+        <App state={state.state} addPost={state.addPost} updateNewPostText={state.updateNewPostText}/>
       </BrowserRouter>
     </React.StrictMode>,
   )

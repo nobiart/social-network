@@ -9,6 +9,7 @@ export const state = {
       {id: "4", message: "My nth Post", likes: 5},
       {id: "5", message: "Hello, World!", likes: 8},
     ],
+    newPostText: "",
   },
   dialogsPage: {
     dialogs: [
@@ -24,14 +25,20 @@ export const state = {
   }
 };
 
-export const addPost = (postMessage: string) => {
+export const addPost = () => {
   const newPost = {
     id: String(state.profilePage.posts.length + 2),
-    message: postMessage,
+    message: state.profilePage.newPostText,
     likes: 0
   }
 
   state.profilePage.posts.push(newPost);
+  state.profilePage.newPostText = '';
+  renderEntireTree({state, addPost, updateNewPostText});
+}
 
-  renderEntireTree({state, addPost});
+export const updateNewPostText = (newText: string) => {
+  state.profilePage.newPostText = newText;
+
+  renderEntireTree({state, addPost, updateNewPostText});
 }

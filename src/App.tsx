@@ -17,23 +17,26 @@ export interface IState {
   state: {
     profilePage: {
       posts: IPostProps[];
+      newPostText: string;
     }
     dialogsPage: {
       dialogs: IDialogItemProps[];
       messages: IMessage[];
     }
   }
-  addPost: (v: string) => void;
+  addPost: () => void;
+  updateNewPostText: (v: string) => void;
 }
 
-export const App = ({state, addPost}: IState) => {
+export const App = ({state, addPost, updateNewPostText}: IState) => {
   return (
     <div className="app-wrapper">
       <Header/>
       <NavBar/>
       <div className='app-content'>
         <Routes>
-          <Route element={<Profile state={state.profilePage} addPost={addPost}/>} path="/profile"/>
+          <Route element={<Profile state={state.profilePage} addPost={addPost} updateNewPostText={updateNewPostText}/>}
+                 path="/profile"/>
           <Route element={<Dialogs state={state.dialogsPage}/>} path="/dialogs/*"/>
           <Route element={<News/>} path="/news"/>
           <Route element={<Music/>} path="/music"/>

@@ -4,18 +4,19 @@ import {useRef} from "react";
 
 interface IPostsProps {
   posts: IPostProps[];
-  addPost: (v: string) => void;
+  newPostText: string;
+  addPost: () => void;
+  updateNewPostText: (v: string) => void;
 }
 
-export const Posts = ({posts, addPost}: IPostsProps) => {
+export const Posts = ({posts, newPostText, addPost, updateNewPostText}: IPostsProps) => {
   const postsElements = posts.map(p => <Post key={p.id} {...p} />);
 
   const newPostElement = useRef<HTMLTextAreaElement>(null);
 
-  const addPostHandler = () => {
+  const onPostTextChange = () => {
     let text = newPostElement.current?.value ?? '';
-    text.length > 1 && addPost(text);
-    text = '';
+    updateNewPostText(text);
   }
 
   return (
@@ -23,9 +24,9 @@ export const Posts = ({posts, addPost}: IPostsProps) => {
       <h3>My Posts</h3>
       <div>
         <div>
-          <textarea ref={newPostElement} name="newPost"></textarea>
+          <textarea ref={newPostElement} onChange={onPostTextChange} value={newPostText} name="newPost"/>
         </div>
-        <button onClick={addPostHandler} className={s.submit}>Add New Post</button>
+        <button onClick={addPost} className={s.submit}>Add New Post</button>
       </div>
       <div className={s.posts}>
         {postsElements}
