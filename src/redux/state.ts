@@ -1,4 +1,8 @@
-import {renderEntireTree} from "../render.tsx";
+import {IState} from "../App.tsx";
+
+let renderEntireTree = (state: IState) => {
+  console.log('State changed', state);
+}
 
 export const state = {
   profilePage: {
@@ -41,4 +45,8 @@ export const updateNewPostText = (newText: string) => {
   state.profilePage.newPostText = newText;
 
   renderEntireTree({state, addPost, updateNewPostText});
+}
+
+export const subscribe = (observer: (state: IState) => void) => {
+  renderEntireTree = observer;
 }
