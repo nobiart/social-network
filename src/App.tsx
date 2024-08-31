@@ -13,18 +13,17 @@ import {IState} from "./redux/state.ts";
 
 export interface IAppState {
   state: IState;
-  addPost: () => void;
-  updateNewPostText: (v: string) => void;
+  dispatch: (action: any) => void;
 }
 
-export const App = ({state, addPost, updateNewPostText}: IAppState) => {
+export const App = ({state, dispatch}: IAppState) => {
   return (
     <div className="app-wrapper">
       <Header/>
       <NavBar/>
       <div className='app-content'>
         <Routes>
-          <Route element={<Profile state={state.profilePage} addPost={addPost} updateNewPostText={updateNewPostText}/>}
+          <Route element={<Profile state={state.profilePage} dispatch={dispatch}/>}
                  path="/profile"/>
           <Route element={<Dialogs state={state.dialogsPage}/>} path="/dialogs/*"/>
           <Route element={<News/>} path="/news"/>

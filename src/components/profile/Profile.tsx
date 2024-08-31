@@ -7,16 +7,14 @@ interface IProfileProps {
     posts: IPostProps[];
     newPostText: string;
   }
-  addPost: () => void;
-  updateNewPostText: (v: string) => void;
+  dispatch: (action: any) => void;
 }
 
-export const Profile = ({state, addPost, updateNewPostText}: IProfileProps) => {
+export const Profile = ({state, dispatch}: IProfileProps) => {
   return (
     <div>
       <ProfileInfo/>
-      <Posts posts={state.posts} newPostText={state.newPostText} addPost={addPost}
-             updateNewPostText={updateNewPostText}/>
+      <Posts posts={state.posts} newPostText={state.newPostText} dispatch={dispatch}/>
     </div>
   )
 };

@@ -5,18 +5,21 @@ import {useRef} from "react";
 interface IPostsProps {
   posts: IPostProps[];
   newPostText: string;
-  addPost: () => void;
-  updateNewPostText: (v: string) => void;
+  dispatch: (action: any) => void;
 }
 
-export const Posts = ({posts, newPostText, addPost, updateNewPostText}: IPostsProps) => {
+export const Posts = ({posts, newPostText, dispatch}: IPostsProps) => {
   const postsElements = posts.map(p => <Post key={p.id} {...p} />);
 
   const newPostElement = useRef<HTMLTextAreaElement>(null);
 
+  const addPost = () => {
+    dispatch({type: 'ADD_POST'})
+  };
+
   const onPostTextChange = () => {
     let text = newPostElement.current?.value ?? '';
-    updateNewPostText(text);
+    dispatch({type: 'UPDATE_NEW_POST_TEXT', newText: text});
   }
 
   return (

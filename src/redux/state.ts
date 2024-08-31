@@ -38,30 +38,33 @@ export const store = {
       ]
     }
   },
-  getState() {
-    return this._state;
-  },
   _callSubscriber(state: IState) {
     console.log('State changed', state);
   },
-  addPost() {
-    const newPost = {
-      id: String(this._state.profilePage.posts.length + 2),
-      message: this._state.profilePage.newPostText,
-      likes: 0
-    }
 
-    this._state.profilePage.posts.push(newPost);
-    this._state.profilePage.newPostText = '';
-    this._callSubscriber(this._state);
-  },
-  updateNewPostText(newText: string) {
-    this._state.profilePage.newPostText = newText;
-    this._callSubscriber(this._state);
+  getState() {
+    return this._state;
   },
   subscribe(observer: (state: IState) => void) {
     this._callSubscriber = observer;
-  }
+  },
+
+  dispatch(action: any) {
+    if (action.type === 'ADD_POST') {
+      const newPost = {
+        id: String(this._state.profilePage.posts.length + 2),
+        message: this._state.profilePage.newPostText,
+        likes: 0
+      }
+
+      this._state.profilePage.posts.push(newPost);
+      this._state.profilePage.newPostText = '';
+      this._callSubscriber(this._state);
+    } else if (action.type === 'UPDATE_NEW_POST_TEXT') {
+      this._state.profilePage.newPostText = action.newText;
+      this._callSubscriber(this._state);
+    }
+  },
 }
 
 // window.store = store;
