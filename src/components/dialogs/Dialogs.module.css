@@ -14,5 +14,8 @@
 
 .messages {
   padding: 16px;
+}
 
+.messages button {
+  color: white;
 }

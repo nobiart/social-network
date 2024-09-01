@@ -10,11 +10,14 @@ export interface IState {
   dialogsPage: {
     dialogs: IDialogItemProps[];
     messages: IMessage[];
+    newMessageBody: string;
   }
 }
 
 const ADD_POST = 'ADD_POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
+const SEND_MESSAGE = 'SEND_MESSAGE';
 
 export const store = {
   _state: {
@@ -38,7 +41,8 @@ export const store = {
         {id: "1", text: "Message 1"},
         {id: "2", text: "Message 2"},
         {id: "3", text: "Message 3"},
-      ]
+      ],
+      newMessageBody: '',
     }
   },
   _callSubscriber(state: IState) {
@@ -66,16 +70,34 @@ export const store = {
     } else if (action.type === UPDATE_NEW_POST_TEXT) {
       this._state.profilePage.newPostText = action.newText;
       this._callSubscriber(this._state);
+    } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
+      this._state.dialogsPage.newMessageBody = action.messageBody;
+      this._callSubscriber(this._state);
+    } else if (action.type === SEND_MESSAGE) {
+      const newMessage = {
+        id: String(this._state.dialogsPage.messages.length + 2),
+        text: this._state.dialogsPage.newMessageBody
+      }
+      this._state.dialogsPage.messages.push(newMessage);
+      this._state.dialogsPage.newMessageBody = '';
+      this._callSubscriber(this._state);
     }
   },
 }
 
 export const addPostActionCreator = () => ({type: ADD_POST});
-
 export const updatePostTextActionCreator = (text: string) => (
   {
     type: UPDATE_NEW_POST_TEXT,
     newText: text
+  }
+);
+
+export const sendMessageCreator = () => ({type: SEND_MESSAGE});
+export const updateMessageBodyCreator = (text: string) => (
+  {
+    type: UPDATE_NEW_MESSAGE_BODY,
+    messageBody: text
   }
 );
 

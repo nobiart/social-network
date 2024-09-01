@@ -1,21 +1,26 @@
 import s from './Dialogs.module.css';
 import {DialogItem, IDialogItemProps} from "./dialogItem/DialogItem.tsx";
 import {IMessage, Message} from "./message/Message.tsx";
-import {useRef} from "react";
+import {sendMessageCreator, updateMessageBodyCreator} from "../../redux/state.ts";
+import {ChangeEvent} from "react";
 
 interface IDialogsProps {
   state: {
     dialogs: IDialogItemProps[];
     messages: IMessage[];
+    newMessageBody: string;
   }
+  dispatch: (action: any) => void;
 }
 
-export const Dialogs = ({state}: IDialogsProps) => {
-  const messageInput = useRef<HTMLTextAreaElement>(null);
+export const Dialogs = ({state, dispatch}: IDialogsProps) => {
+  const onSendMessage = () => {
+    dispatch(sendMessageCreator());
+  };
 
-  const addMessage = () => {
-    const message = messageInput.current?.value;
-    alert(message);
+  const onMessageTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const message = e.target?.value ?? '';
+    dispatch(updateMessageBodyCreator(message));
   };
 
   return (
@@ -27,9 +32,14 @@ export const Dialogs = ({state}: IDialogsProps) => {
         {state.messages.map(m => <Message key={m.id} id={m.id} text={m.text}/>)}
         <div>
           <div>
-            <textarea ref={messageInput} name="message"></textarea>
+            <textarea
+              placeholder="Enter your message"
+              value={state.newMessageBody}
+              onChange={onMessageTextChange}
+            >
+            </textarea>
           </div>
-          <button onClick={addMessage}>Add Message</button>
+          <button onClick={onSendMessage}>Send</button>
         </div>
       </div>
     </div>

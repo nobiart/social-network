@@ -25,7 +25,7 @@ export const App = ({state, dispatch}: IAppState) => {
         <Routes>
           <Route element={<Profile state={state.profilePage} dispatch={dispatch}/>}
                  path="/profile"/>
-          <Route element={<Dialogs state={state.dialogsPage}/>} path="/dialogs/*"/>
+          <Route element={<Dialogs state={state.dialogsPage} dispatch={dispatch}/>} path="/dialogs/*"/>
           <Route element={<News/>} path="/news"/>
           <Route element={<Music/>} path="/music"/>
           <Route element={<Settings/>} path="/settings"/>
