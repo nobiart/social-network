@@ -1,8 +1,8 @@
 import s from './Dialogs.module.css';
 import {DialogItem, IDialogItemProps} from "./dialogItem/DialogItem.tsx";
 import {IMessage, Message} from "./message/Message.tsx";
-import {sendMessageCreator, updateMessageBodyCreator} from "../../redux/state.ts";
 import {ChangeEvent} from "react";
+import {sendMessageCreator, updateMessageBodyCreator} from "../../redux/dialogsReducer.ts";
 
 interface IDialogsProps {
   state: {

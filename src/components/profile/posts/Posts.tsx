@@ -1,7 +1,7 @@
 import s from './Posts.module.css';
 import {IPostProps, Post} from "./post/Post.tsx";
 import {useRef} from "react";
-import {addPostActionCreator, updatePostTextActionCreator} from "../../../redux/state.ts";
+import {addPostActionCreator, updatePostTextActionCreator} from "../../../redux/profileReducer.ts";
 
 interface IPostsProps {
   posts: IPostProps[];
