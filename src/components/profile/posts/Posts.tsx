@@ -1,6 +1,7 @@
 import s from './Posts.module.css';
 import {IPostProps, Post} from "./post/Post.tsx";
 import {useRef} from "react";
+import {addPostActionCreator, updatePostTextActionCreator} from "../../../redux/state.ts";
 
 interface IPostsProps {
   posts: IPostProps[];
@@ -14,12 +15,12 @@ export const Posts = ({posts, newPostText, dispatch}: IPostsProps) => {
   const newPostElement = useRef<HTMLTextAreaElement>(null);
 
   const addPost = () => {
-    dispatch({type: 'ADD_POST'})
+    dispatch(addPostActionCreator());
   };
 
   const onPostTextChange = () => {
     let text = newPostElement.current?.value ?? '';
-    dispatch({type: 'UPDATE_NEW_POST_TEXT', newText: text});
+    dispatch(updatePostTextActionCreator(text));
   }
 
   return (

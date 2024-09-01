@@ -13,6 +13,9 @@ export interface IState {
   }
 }
 
+const ADD_POST = 'ADD_POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
+
 export const store = {
   _state: {
     profilePage: {
@@ -50,7 +53,7 @@ export const store = {
   },
 
   dispatch(action: any) {
-    if (action.type === 'ADD_POST') {
+    if (action.type === ADD_POST) {
       const newPost = {
         id: String(this._state.profilePage.posts.length + 2),
         message: this._state.profilePage.newPostText,
@@ -60,11 +63,20 @@ export const store = {
       this._state.profilePage.posts.push(newPost);
       this._state.profilePage.newPostText = '';
       this._callSubscriber(this._state);
-    } else if (action.type === 'UPDATE_NEW_POST_TEXT') {
+    } else if (action.type === UPDATE_NEW_POST_TEXT) {
       this._state.profilePage.newPostText = action.newText;
       this._callSubscriber(this._state);
     }
   },
 }
+
+export const addPostActionCreator = () => ({type: ADD_POST});
+
+export const updatePostTextActionCreator = (text: string) => (
+  {
+    type: UPDATE_NEW_POST_TEXT,
+    newText: text
+  }
+);
 
 // window.store = store;
