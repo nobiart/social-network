@@ -1,26 +1,20 @@
 import s from './Posts.module.css';
 import {IPostProps, Post} from "./post/Post.tsx";
 import {useRef} from "react";
-import {addPostActionCreator, updatePostTextActionCreator} from "../../../redux/profileReducer.ts";
 
 interface IPostsProps {
   posts: IPostProps[];
   newPostText: string;
-  dispatch: (action: any) => void;
+  updateNewPostText: (action: any) => void;
+  addPost: () => void;
 }
 
-export const Posts = ({posts, newPostText, dispatch}: IPostsProps) => {
-  const postsElements = posts.map(p => <Post key={p.id} {...p} />);
-
+export const Posts = ({posts, newPostText, updateNewPostText, addPost}: IPostsProps) => {
   const newPostElement = useRef<HTMLTextAreaElement>(null);
-
-  const addPost = () => {
-    dispatch(addPostActionCreator());
-  };
 
   const onPostTextChange = () => {
     let text = newPostElement.current?.value ?? '';
-    dispatch(updatePostTextActionCreator(text));
+    updateNewPostText(text);
   }
 
   return (
@@ -33,7 +27,7 @@ export const Posts = ({posts, newPostText, dispatch}: IPostsProps) => {
         <button onClick={addPost} className={s.submit}>Add New Post</button>
       </div>
       <div className={s.posts}>
-        {postsElements}
+        {posts.map(p => <Post key={p.id} {...p} />)}
       </div>
     </div>
   )

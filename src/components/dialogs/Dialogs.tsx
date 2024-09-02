@@ -2,44 +2,38 @@ import s from './Dialogs.module.css';
 import {DialogItem, IDialogItemProps} from "./dialogItem/DialogItem.tsx";
 import {IMessage, Message} from "./message/Message.tsx";
 import {ChangeEvent} from "react";
-import {sendMessageCreator, updateMessageBodyCreator} from "../../redux/dialogsReducer.ts";
 
 interface IDialogsProps {
-  state: {
-    dialogs: IDialogItemProps[];
-    messages: IMessage[];
-    newMessageBody: string;
-  }
-  dispatch: (action: any) => void;
+  dialogs: IDialogItemProps[];
+  messages: IMessage[];
+  messageText: string;
+  sendMessage: () => void;
+  changeText: (text: string) => void;
 }
 
-export const Dialogs = ({state, dispatch}: IDialogsProps) => {
-  const onSendMessage = () => {
-    dispatch(sendMessageCreator());
-  };
-
+export const Dialogs = ({dialogs, messages, messageText, sendMessage, changeText}: IDialogsProps) => {
   const onMessageTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const message = e.target?.value ?? '';
-    dispatch(updateMessageBodyCreator(message));
+    changeText(message);
   };
 
   return (
     <div className={s.dialogsContainer}>
       <div className={s.dialogs}>
-        {state.dialogs.map(d => <DialogItem key={d.name} id={d.id} name={d.name}/>)}
+        {dialogs.map(d => <DialogItem key={d.name} id={d.id} name={d.name}/>)}
       </div>
       <div className={s.messages}>
-        {state.messages.map(m => <Message key={m.id} id={m.id} text={m.text}/>)}
+        {messages.map(m => <Message key={m.id} id={m.id} text={m.text}/>)}
         <div>
           <div>
             <textarea
               placeholder="Enter your message"
-              value={state.newMessageBody}
+              value={messageText}
               onChange={onMessageTextChange}
             >
             </textarea>
           </div>
-          <button onClick={onSendMessage}>Send</button>
+          <button onClick={sendMessage}>Send</button>
         </div>
       </div>
     </div>

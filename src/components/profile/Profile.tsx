@@ -1,20 +1,11 @@
-import {Posts} from "./posts/Posts.tsx";
 import {ProfileInfo} from "./info/ProfileInfo.tsx";
-import {IPostProps} from "./posts/post/Post.tsx";
+import {PostsContainer} from "./posts/PostsContainer.tsx";
 
-interface IProfileProps {
-  state: {
-    posts: IPostProps[];
-    newPostText: string;
-  }
-  dispatch: (action: any) => void;
-}
-
-export const Profile = ({state, dispatch}: IProfileProps) => {
+export const Profile = ({store}: any) => {
   return (
     <div>
       <ProfileInfo/>
-      <Posts posts={state.posts} newPostText={state.newPostText} dispatch={dispatch}/>
+      <PostsContainer store={store}/>
     </div>
   )
 };
