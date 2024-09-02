@@ -7,12 +7,11 @@ import {Profile} from "./components/profile/Profile.tsx";
 import {News} from "./components/news/News.tsx";
 import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
-import {IState} from "./redux/state.ts";
 
 // @TODO Why CSS doesn't work with "-", only camelCase
 
 export interface IAppState {
-  state: IState;
+  state: any;
   dispatch: (action: any) => void;
 }
 

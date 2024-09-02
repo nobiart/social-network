@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
 import './index.css';
-import {IState, store} from "./redux/state.ts";
+import {store} from "./redux/reduxStore.ts";
 
-const renderEntireTree = (state: IState) => {
+const renderEntireTree = (state: unknown) => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <BrowserRouter>
@@ -17,4 +17,6 @@ const renderEntireTree = (state: IState) => {
 
 renderEntireTree(store.getState());
 
-store.subscribe(renderEntireTree);
+store.subscribe(() => {
+  renderEntireTree(store.getState());
+});
