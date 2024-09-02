@@ -8,17 +8,15 @@ import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
 import {DialogsContainer} from "./components/dialogs/DialogsContainer.tsx";
 
-export const App = (state: any, store: any) => {
-  console.log('Store: ', store);
-
+export const App = () => {
   return (
     <div className="app-wrapper">
       <Header/>
       <NavBar/>
       <div className='app-content'>
         <Routes>
-          <Route element={<Profile store={state.store}/>} path="/profile"/>
-          <Route element={<DialogsContainer store={state.store}/>} path="/dialogs/*"/>
+          <Route element={<Profile/>} path="/profile"/>
+          <Route element={<DialogsContainer/>} path="/dialogs/*"/>
           <Route element={<News/>} path="/news"/>
           <Route element={<Music/>} path="/music"/>
           <Route element={<Settings/>} path="/settings"/>

@@ -1,11 +1,11 @@
 import {ProfileInfo} from "./info/ProfileInfo.tsx";
 import {PostsContainer} from "./posts/PostsContainer.tsx";
 
-export const Profile = ({store}: any) => {
+export const Profile = () => {
   return (
     <div>
       <ProfileInfo/>
-      <PostsContainer store={store}/>
+      <PostsContainer/>
     </div>
   )
 };
