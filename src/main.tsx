@@ -4,15 +4,15 @@ import React from "react";
 import {BrowserRouter} from "react-router-dom";
 import './index.css';
 import {store} from "./redux/reduxStore.ts";
-import {StoreContext} from "./StoreContext.tsx";
+import {Provider} from "react-redux";
 
 const renderEntireTree = () => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <BrowserRouter>
-        <StoreContext.Provider value={store}>
+        <Provider store={store}>
           <App/>
-        </StoreContext.Provider>
+        </Provider>
       </BrowserRouter>
     </React.StrictMode>,
   )
