@@ -7,6 +7,7 @@ import {News} from "./components/news/News.tsx";
 import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
 import {DialogsContainer} from "./components/dialogs/DialogsContainer.tsx";
+import {UsersContainer} from "./components/users/UsersContainer.tsx";
 
 export const App = () => {
   return (
@@ -17,6 +18,7 @@ export const App = () => {
         <Routes>
           <Route element={<Profile/>} path="/profile"/>
           <Route element={<DialogsContainer/>} path="/dialogs/*"/>
+          <Route element={<UsersContainer/>} path="/users"/>
           <Route element={<News/>} path="/news"/>
           <Route element={<Music/>} path="/music"/>
           <Route element={<Settings/>} path="/settings"/>
