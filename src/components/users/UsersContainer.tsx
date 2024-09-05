@@ -1,12 +1,5 @@
 import {connect} from "react-redux";
-import {
-  followCreator,
-  setCurrentPageCreator,
-  setTotalCountCreator,
-  setUsersCreator,
-  toggleFetchingCreator,
-  unfollowCreator
-} from "../../redux/usersReducer.ts";
+import {follow, setCurrentPage, setTotalCount, setUsers, toggleFetching, unfollow} from "../../redux/usersReducer.ts";
 import React from "react";
 import {Users} from "./Users.tsx";
 import {Preloader} from "../common/preloader/Preloader.tsx";
@@ -113,27 +106,11 @@ const mapStateToProps = (state: any) => {
   }
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    follow: (userId: number) => {
-      dispatch(followCreator(userId));
-    },
-    unfollow: (userId: number) => {
-      dispatch(unfollowCreator(userId));
-    },
-    setUsers: (users: any) => {
-      dispatch(setUsersCreator(users));
-    },
-    setCurrentPage: (pageNumber: number) => {
-      dispatch(setCurrentPageCreator(pageNumber));
-    },
-    setTotalCount: (count: number) => {
-      dispatch(setTotalCountCreator(count));
-    },
-    toggleFetching: (isFetching: boolean) => {
-      dispatch(toggleFetchingCreator(isFetching));
-    }
-  }
-}
-
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent);
+export const UsersContainer = connect(mapStateToProps, {
+  follow,
+  unfollow,
+  setUsers,
+  setCurrentPage,
+  setTotalCount,
+  toggleFetching,
+})(UsersAPIComponent);
