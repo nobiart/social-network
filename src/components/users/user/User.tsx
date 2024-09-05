@@ -1,7 +1,7 @@
 import s from './User.module.css';
 // import defaultPic from '../../../assets/username.png';
 
-export const User = ({user, follow, unfollow}) => {
+export const User = ({user, follow, unfollow}: { user: any, follow: any, unfollow: any }) => {
   return (
     <div className={s.wrapper}>
       <div className={s.shortInfo}>
