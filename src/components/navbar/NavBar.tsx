@@ -12,6 +12,9 @@ export const NavBar = () => {
           <NavLink className={({isActive}) => isActive ? s.active : ''} to="/dialogs">Messages</NavLink>
         </li>
         <li className={s.item}>
+          <NavLink className={({isActive}) => isActive ? s.active : ''} to="/users">Users</NavLink>
+        </li>
+        <li className={s.item}>
           <NavLink className={({isActive}) => isActive ? s.active : ''} to="/news">News</NavLink>
         </li>
         <li className={s.item}>
