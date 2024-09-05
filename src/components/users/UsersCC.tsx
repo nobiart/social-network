@@ -1,13 +1,16 @@
 import {User} from "./user/User.tsx";
 import React from "react";
+import s from './Users.module.css';
 
 // import axios from "axios";
 
 export class UsersCC extends React.Component<any, any> {
   componentDidMount() {
-    // axios.get('https://social-network.samuraijs.com/api/1.0/users').then((res) => {
-    //   this.props.setUsers(res.data.items);
-    // });
+    // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+    //    .then((res) => {
+    //      this.props.setUsers(res.data.items);
+    //      this.props.setTotalCount(res.data.totalCount);
+    //    });
     this.props.setUsers([
       {
         id: 1,
@@ -54,18 +57,48 @@ export class UsersCC extends React.Component<any, any> {
         }
       },
     ]);
+    this.props.setTotalCount(18);
+  }
+
+  onChangePage = (pageNumber: number) => {
+    this.props.setCurrentPage(pageNumber);
+    // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+    //    .then((res) => {
+    //      this.props.setUsers(res.data.items);
+    //      this.props.setTotalCount(res.data.totalCount);
+    //    });
   }
 
   render() {
+    const pagesCount = Math.ceil(this.props.totalCount / this.props.pageSize);
+    const pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+      pages.push(i);
+    }
     return (
-      this.props.users.map((user) => (
-        <User
-          key={user.id}
-          user={user}
-          follow={this.props.follow}
-          unfollow={this.props.unfollow}
-        />
-      ))
+      <>
+        <div className={s.pagination}>
+          {pages.map(p => {
+            return (
+              <span
+                key={p}
+                onClick={() => this.onChangePage(p)}
+                className={this.props.currentPage === p ? s.active : ''}
+              >
+                {p}
+              </span>
+            )
+          })}
+        </div>
+        {this.props.users.map((user) => (
+          <User
+            key={user.id}
+            user={user}
+            follow={this.props.follow}
+            unfollow={this.props.unfollow}
+          />
+        ))}
+      </>
     )
   }
 }

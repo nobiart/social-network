@@ -1,0 +1,8 @@
+.pagination {
+  display: flex;
+  gap: 4px;
+}
+
+.active {
+  font-weight: bold;
+}
