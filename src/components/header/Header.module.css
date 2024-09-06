@@ -1,8 +1,14 @@
 .header {
   grid-area: header;
   background-color: darkolivegreen;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header img {
   width: 50px;
+}
+
+.login {
 }

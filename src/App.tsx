@@ -1,5 +1,4 @@
 import './App.css';
-import {Header} from "./components/header/Header.tsx";
 import {NavBar} from "./components/navbar/NavBar.tsx";
 import {Route, Routes} from "react-router-dom";
 import {News} from "./components/news/News.tsx";
@@ -8,11 +7,12 @@ import {Settings} from "./components/settings/Settings.tsx";
 import {DialogsContainer} from "./components/dialogs/DialogsContainer.tsx";
 import {UsersContainer} from "./components/users/UsersContainer.tsx";
 import {ProfileContainer} from "./components/profile/ProfileContainer.tsx";
+import {HeaderContainer} from "./components/header/HeaderContainer.tsx";
 
 export const App = () => {
   return (
     <div className="app-wrapper">
-      <Header/>
+      <HeaderContainer/>
       <NavBar/>
       <div className='app-content'>
         <Routes>
