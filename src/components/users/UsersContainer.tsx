@@ -4,19 +4,16 @@ import React from "react";
 import {Users} from "./Users.tsx";
 import {Preloader} from "../common/preloader/Preloader.tsx";
 
-// import axios from "axios";
+// import {getUsers} from "../../api/api.ts";
 
 class UsersAPIComponent extends React.Component<any, any> {
   componentDidMount() {
     this.props.toggleFetching(true);
-    // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
-    //   withCredentials: true
-    // })
-    //   .then((res) => {
-    //     this.props.setUsers(res.data.items);
-    //     this.props.setTotalCount(res.data.totalCount);
-    //     this.props.toggleFetching(false);
-    //   });
+    // getUsers(this.props.currentPage, this.props.pageSize).then((data) => {
+    //   this.props.setUsers(data.items);
+    //   this.props.setTotalCount(data.totalCount);
+    //   this.props.toggleFetching(false);
+    // });
     this.props.setUsers([
       {
         id: 1,
@@ -71,14 +68,11 @@ class UsersAPIComponent extends React.Component<any, any> {
     this.props.toggleFetching(true);
     this.props.setCurrentPage(pageNumber);
     // this.props.toggleFetching(true);
-    // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {
-    //   withCredentials: true,
-    // })
-    //   .then((res) => {
-    //     this.props.setUsers(res.data.items);
-    //     this.props.setTotalCount(res.data.totalCount);
-    //     this.props.toggleFetching(false);
-    //   });
+    // getUsers(pageNumber, this.props.pageSize).then((data) => {
+    //   this.props.setUsers(data.items);
+    //   this.props.setTotalCount(data.totalCount);
+    //   this.props.toggleFetching(false);
+    // });
     this.props.toggleFetching(false);
   }
 

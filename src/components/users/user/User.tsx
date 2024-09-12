@@ -1,32 +1,22 @@
 import s from './User.module.css';
 import defaultPic from '../../../assets/username.png';
 import {NavLink} from "react-router-dom";
-import axios from "axios";
+import {followHandler, unfollowHandler} from "../../../api/api.ts";
 
 export const User = ({user, follow, unfollow}: { user: any, follow: any, unfollow: any }) => {
-  const handleFollow = (userId: number | string) => {
-    axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {}, {
-      withCredentials: true,
-      headers: {
-        "API-KEY": "3370cfb8-72a3-4899-97f2-265767d19567",
-      }
-    })
-      .then((res) => {
-        if (res.data.resultCode === 0) {
+  const handleFollow = (userId: number) => {
+    followHandler(userId)
+      .then((data) => {
+        if (data.resultCode === 0) {
           follow(userId)
         }
       });
   }
 
-  const handleUnfollow = (userId: number | string) => {
-    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {
-      withCredentials: true,
-      headers: {
-        "API-KEY": "3370cfb8-72a3-4899-97f2-265767d19567",
-      }
-    })
-      .then((res) => {
-        if (res.data.resultCode === 0) {
+  const handleUnfollow = (userId: number) => {
+    unfollowHandler(userId)
+      .then((data) => {
+        if (data.resultCode === 0) {
           unfollow(userId)
         }
       });
