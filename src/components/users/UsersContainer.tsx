@@ -1,12 +1,12 @@
 import {connect} from "react-redux";
 import {
-  follow,
+  followThunkCreator,
+  getUsersThunkCreator,
   setCurrentPage,
   setTotalCount,
   setUsers,
   toggleFetching,
-  toggleFollowing,
-  unfollow
+  unfollowThunkCreator
 } from "../../redux/usersReducer.ts";
 import React from "react";
 import {Users} from "./Users.tsx";
@@ -16,12 +16,8 @@ import {Preloader} from "../common/preloader/Preloader.tsx";
 
 class UsersAPIComponent extends React.Component<any, any> {
   componentDidMount() {
+    // this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
     this.props.toggleFetching(true);
-    // getUsers(this.props.currentPage, this.props.pageSize).then((data) => {
-    //   this.props.setUsers(data.items);
-    //   this.props.setTotalCount(data.totalCount);
-    //   this.props.toggleFetching(false);
-    // });
     this.props.setUsers([
       {
         id: 1,
@@ -73,14 +69,9 @@ class UsersAPIComponent extends React.Component<any, any> {
   }
 
   onChangePage = (pageNumber: number) => {
+    // this.props.getUsersThunkCreator(pageNumber, this.props.pageSize);
     this.props.toggleFetching(true);
     this.props.setCurrentPage(pageNumber);
-    // this.props.toggleFetching(true);
-    // getUsers(pageNumber, this.props.pageSize).then((data) => {
-    //   this.props.setUsers(data.items);
-    //   this.props.setTotalCount(data.totalCount);
-    //   this.props.toggleFetching(false);
-    // });
     this.props.toggleFetching(false);
   }
 
@@ -93,11 +84,10 @@ class UsersAPIComponent extends React.Component<any, any> {
           pageSize={this.props.pageSize}
           currentPage={this.props.currentPage}
           users={this.props.users}
-          follow={this.props.follow}
-          unfollow={this.props.unfollow}
+          follow={this.props.followThunkCreator}
+          unfollow={this.props.unfollowThunkCreator}
           onChangePage={this.onChangePage}
           isFollowing={this.props.isFollowingInProgress}
-          toggleFollowing={this.props.toggleFollowing}
         />
       </>
     )
@@ -115,12 +105,14 @@ const mapStateToProps = (state: any) => {
   }
 };
 
+// @TODO remove setUsers setTotalCount toggleFetching
+
 export const UsersContainer = connect(mapStateToProps, {
-  follow,
-  unfollow,
+  followThunkCreator,
+  unfollowThunkCreator,
   setUsers,
   setCurrentPage,
   setTotalCount,
   toggleFetching,
-  toggleFollowing,
+  getUsersThunkCreator,
 })(UsersAPIComponent);

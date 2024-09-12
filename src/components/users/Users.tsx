@@ -29,8 +29,7 @@ export const Users = (props: any) => {
           user={user}
           follow={props.follow}
           unfollow={props.unfollow}
-          isFollowing={props.isFollowingInProgress}
-          toggleFollowing={props.toggleFollowing}
+          isFollowing={props.isFollowing}
         />
       ))}
     </>
