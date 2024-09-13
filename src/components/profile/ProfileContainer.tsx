@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {getProfileThunkCreator, setUserProfile} from "../../redux/profileReducer.ts";
 import {Profile} from "./Profile.tsx";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 
 // import axios from "axios";
 
@@ -27,6 +27,8 @@ class ProfileClass extends React.Component<any, any> {
   }
 
   render() {
+    if (!this.props.isAuth) return <Navigate to="/login"/>
+
     return <Profile {...this.props} profile={this.props.profile}/>
   }
 }
@@ -34,6 +36,7 @@ class ProfileClass extends React.Component<any, any> {
 const mapStateToProps = (state: any) => {
   return {
     profile: state.profilePage.profile,
+    isAuth: state.auth.isAuth,
   }
 }
 

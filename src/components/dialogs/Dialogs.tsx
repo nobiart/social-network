@@ -2,12 +2,15 @@ import s from './Dialogs.module.css';
 import {DialogItem} from "./dialogItem/DialogItem.tsx";
 import {Message} from "./message/Message.tsx";
 import {ChangeEvent} from "react";
+import {Navigate} from "react-router-dom";
 
 export const Dialogs = (props: any) => {
   const onMessageTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const message = e.target?.value ?? '';
     props.changeText(message);
   };
+
+  if (!props.isAuth) return <Navigate to="/login"/>
 
   return (
     <div className={s.dialogsContainer}>
