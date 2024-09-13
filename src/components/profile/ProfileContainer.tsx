@@ -4,8 +4,7 @@ import {getProfileThunkCreator, setUserProfile} from "../../redux/profileReducer
 import {Profile} from "./Profile.tsx";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect.tsx";
-
-// import axios from "axios";
+import {compose} from "redux";
 
 class ProfileClass extends React.Component<any, any> {
   componentDidMount() {
@@ -55,6 +54,10 @@ function withRouter(ProfileClass: any) {
   return ComponentWithRouterProp;
 }
 
-export const ProfileContainer = withAuthRedirect(connect(mapStateToProps, {
-  setUserProfile, getProfileThunkCreator
-})(withRouter(ProfileClass)));
+export const ProfileContainer = compose(
+  connect(mapStateToProps, {
+    setUserProfile, getProfileThunkCreator
+  }),
+  withRouter,
+  withAuthRedirect,
+)(ProfileClass);

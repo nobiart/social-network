@@ -17,7 +17,7 @@ export const authReducer = (state: any = initialState, action: any) => {
       return {
         ...state,
         ...action.data,
-        isAuth: action.data.length > 0,
+        isAuth: action.data.id != null,
       };
     case TOGGLE_IS_FETCHING:
       return {
