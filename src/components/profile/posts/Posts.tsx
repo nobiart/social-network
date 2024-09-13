@@ -1,20 +1,13 @@
 import s from './Posts.module.css';
-import {IPostProps, Post} from "./post/Post.tsx";
+import {Post} from "./post/Post.tsx";
 import {useRef} from "react";
 
-interface IPostsProps {
-  posts: IPostProps[];
-  newPostText: string;
-  updateNewPostText: (action: any) => void;
-  addPost: () => void;
-}
-
-export const Posts = ({posts, newPostText, updateNewPostText, addPost}: IPostsProps) => {
+export const Posts = (props: any) => {
   const newPostElement = useRef<HTMLTextAreaElement>(null);
 
   const onPostTextChange = () => {
     let text = newPostElement.current?.value ?? '';
-    updateNewPostText(text);
+    props.updateNewPostText(text);
   }
 
   return (
@@ -22,12 +15,12 @@ export const Posts = ({posts, newPostText, updateNewPostText, addPost}: IPostsPr
       <h3>My Posts</h3>
       <div>
         <div>
-          <textarea ref={newPostElement} onChange={onPostTextChange} value={newPostText} name="newPost"/>
+          <textarea ref={newPostElement} onChange={onPostTextChange} value={props.newPostText} name="newPost"/>
         </div>
-        <button onClick={addPost} className={s.submit}>Add New Post</button>
+        <button onClick={props.addPost} className={s.submit}>Add New Post</button>
       </div>
       <div className={s.posts}>
-        {posts.map(p => <Post key={p.id} {...p} />)}
+        {props.posts.map((p: any) => <Post key={p.id} {...p} />)}
       </div>
     </div>
   )

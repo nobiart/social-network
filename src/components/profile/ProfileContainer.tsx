@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {setUserProfile} from "../../redux/profileReducer.ts";
+import {getProfileThunkCreator, setUserProfile} from "../../redux/profileReducer.ts";
 import {Profile} from "./Profile.tsx";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
@@ -10,10 +10,7 @@ class ProfileClass extends React.Component<any, any> {
   componentDidMount() {
     const userId = this.props.router.params.userId ?? 1;
     console.log('userId', userId);
-    // axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-    //   .then((res) => {
-    //     this.props.setUserProfile(res.data);
-    //   });
+    // this.props.getProfileThunkCreator(userId);
     this.props.setUserProfile({
       userId: 2,
       lookingForAJob: false,
@@ -57,5 +54,5 @@ function withRouter(ProfileClass: any) {
 }
 
 export const ProfileContainer = connect(mapStateToProps, {
-  setUserProfile
+  setUserProfile, getProfileThunkCreator
 })(withRouter(ProfileClass));

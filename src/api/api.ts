@@ -30,3 +30,15 @@ export const usersAPI = {
       .then(response => response.data);
   }
 };
+
+export const profileAPI = {
+  getProfile(userId: number) {
+    return api.get(`profile/${userId}`)
+      .then(response => response.data);
+  },
+
+  getAuth() {
+    return api.get("auth/me")
+      .then(response => response.data);
+  }
+};
