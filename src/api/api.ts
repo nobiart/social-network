@@ -1,13 +1,16 @@
 import axios from "axios";
 
 const BASE_URL = "https://social-network.samuraijs.com/api/1.0/";
-const API_KEY = "340e38b5-f891-410b-a067-61af4c377627";
+const API_KEY = "126291b7-3703-4579-85ac-e0ef08fa09ac";
 
 const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
   headers: {
     "API-KEY": API_KEY,
+    // Authorization: `Bearer 3f1722b4-4c9d-47f1-bca7-f5ca22fc7326`,
+    // "Access-Control-Allow-Credentials": true,
+    // "Access-Control-Allow-Origin": "localhost",
   }
 });
 
