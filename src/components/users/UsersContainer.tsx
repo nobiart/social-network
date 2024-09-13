@@ -11,8 +11,7 @@ import {
 import React from "react";
 import {Users} from "./Users.tsx";
 import {Preloader} from "../common/preloader/Preloader.tsx";
-
-// import {getUsers} from "../../api/api.ts";
+import {withAuthRedirect} from "../../hoc/WithAuthRedirect.tsx";
 
 class UsersAPIComponent extends React.Component<any, any> {
   componentDidMount() {
@@ -107,7 +106,7 @@ const mapStateToProps = (state: any) => {
 
 // @TODO remove setUsers setTotalCount toggleFetching
 
-export const UsersContainer = connect(mapStateToProps, {
+export const UsersContainer = withAuthRedirect(connect(mapStateToProps, {
   followThunkCreator,
   unfollowThunkCreator,
   setUsers,
@@ -115,4 +114,4 @@ export const UsersContainer = connect(mapStateToProps, {
   setTotalCount,
   toggleFetching,
   getUsersThunkCreator,
-})(UsersAPIComponent);
+})(UsersAPIComponent));

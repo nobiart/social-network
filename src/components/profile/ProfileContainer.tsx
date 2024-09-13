@@ -2,7 +2,8 @@ import React from "react";
 import {connect} from "react-redux";
 import {getProfileThunkCreator, setUserProfile} from "../../redux/profileReducer.ts";
 import {Profile} from "./Profile.tsx";
-import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/WithAuthRedirect.tsx";
 
 // import axios from "axios";
 
@@ -27,8 +28,6 @@ class ProfileClass extends React.Component<any, any> {
   }
 
   render() {
-    if (!this.props.isAuth) return <Navigate to="/login"/>
-
     return <Profile {...this.props} profile={this.props.profile}/>
   }
 }
@@ -56,6 +55,6 @@ function withRouter(ProfileClass: any) {
   return ComponentWithRouterProp;
 }
 
-export const ProfileContainer = connect(mapStateToProps, {
+export const ProfileContainer = withAuthRedirect(connect(mapStateToProps, {
   setUserProfile, getProfileThunkCreator
-})(withRouter(ProfileClass));
+})(withRouter(ProfileClass)));
