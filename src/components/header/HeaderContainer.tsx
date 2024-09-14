@@ -6,8 +6,8 @@ import {getAuthThunkCreator, setAuthUserData} from "../../redux/authReducer.ts";
 export class HeaderClass extends React.Component<any, any> {
   componentDidMount() {
     // this.props.getAuthThunkCreator();
-    // this.props.setAuthUserData(31654, "dmitri.besleaga@internet.ru", "nobiart");
-    this.props.setAuthUserData(undefined);
+    this.props.setAuthUserData(31654, "dmitri.besleaga@internet.ru", "nobiart");
+    // this.props.setAuthUserData(undefined);
   }
 
   render() {
