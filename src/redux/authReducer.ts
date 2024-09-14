@@ -1,4 +1,4 @@
-import {profileAPI} from "../api/api.ts";
+import {authAPI} from "../api/api.ts";
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
@@ -38,7 +38,7 @@ export const toggleFetching = (isFetching: boolean) => ({type: TOGGLE_IS_FETCHIN
 
 export const getAuthThunkCreator = () => {
   return (dispatch: any) => {
-    profileAPI.getAuth()
+    authAPI.getAuth()
       .then((data) => {
         if (data.resultCode === 0) {
           const {id, email, login} = data.data;

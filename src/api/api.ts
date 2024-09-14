@@ -45,10 +45,17 @@ export const profileAPI = {
   updateStatus(status: any) {
     return api.put("profile/status", {status})
       .then(response => response.data);
-  },
+  }
+};
 
+export const authAPI = {
   getAuth() {
     return api.get("auth/me")
       .then(response => response.data);
+  },
+
+  getLogin(data: any) {
+    return api.post("auth/login", {}, {...data})
+      .then(response => response.data);
   }
-};
+}

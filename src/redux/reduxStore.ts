@@ -4,7 +4,7 @@ import {dialogsReducer} from "./dialogsReducer.ts";
 import {sidebarReducer} from "./sidebarReducer.ts";
 import {usersReducer} from "./usersReducer.ts";
 import {authReducer} from "./authReducer.ts";
-import {thunk as thunkMiddleware} from 'redux-thunk'
+import {thunk as thunkMiddleware} from "redux-thunk";
 
 const reducers = combineReducers({
   profilePage: profileReducer,
