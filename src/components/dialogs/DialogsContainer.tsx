@@ -1,12 +1,11 @@
 import {Dialogs} from "./Dialogs.tsx";
-import {sendMessageCreator, updateMessageBodyCreator} from "../../redux/dialogsReducer.ts";
+import {sendMessageCreator} from "../../redux/dialogsReducer.ts";
 import {connect} from "react-redux";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect.tsx";
 import {compose} from "redux";
 
 const mapStateToProps = (state: any) => {
   return {
-    messageText: state.dialogsPage.newMessageBody,
     dialogs: state.dialogsPage.dialogs,
     messages: state.dialogsPage.messages,
   }
@@ -14,12 +13,9 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    sendMessage: () => {
-      dispatch(sendMessageCreator());
+    sendMessage: (text: string) => {
+      dispatch(sendMessageCreator(text));
     },
-    changeText: (text: string) => {
-      dispatch(updateMessageBodyCreator(text));
-    }
   }
 };
 

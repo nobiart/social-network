@@ -1,14 +1,41 @@
 import s from './Dialogs.module.css';
 import {DialogItem} from "./dialogItem/DialogItem.tsx";
 import {Message} from "./message/Message.tsx";
+import {Field, Form, Formik} from "formik";
 import {ChangeEvent} from "react";
 
-export const Dialogs = (props: any) => {
-  const onMessageTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const message = e.target?.value ?? '';
-    props.changeText(message);
-  };
+const AddMessageForm = (props: any) => {
+  return (
+    <Formik
+      initialValues={{messageText: ""}}
+      onSubmit={(values, {setSubmitting}) => {
+        console.log(values);
+        props.onSubmit(values.messageText);
+        setSubmitting(false);
+        values.messageText = "";
+      }}
+    >
+      {({values, handleSubmit, handleChange}) => (
+        <Form onSubmit={handleSubmit}>
+          <div>
+            <Field
+              type="textarea"
+              name="message"
+              value={values.messageText}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                handleChange("messageText")(e.target.value);
+              }}
+              placeholder="Enter your message"
+            />
+          </div>
+          <button type="submit">Send</button>
+        </Form>
+      )}
+    </Formik>
+  )
+};
 
+export const Dialogs = (props: any) => {
   return (
     <div className={s.dialogsContainer}>
       <div className={s.dialogs}>
@@ -16,17 +43,7 @@ export const Dialogs = (props: any) => {
       </div>
       <div className={s.messages}>
         {props.messages.map((m: any) => <Message key={m.id} id={m.id} text={m.text}/>)}
-        <div>
-          <div>
-            <textarea
-              placeholder="Enter your message"
-              value={props.messageText}
-              onChange={onMessageTextChange}
-            >
-            </textarea>
-          </div>
-          <button onClick={props.sendMessage}>Send</button>
-        </div>
+        <AddMessageForm onSubmit={props.sendMessage}/>
       </div>
     </div>
   )
