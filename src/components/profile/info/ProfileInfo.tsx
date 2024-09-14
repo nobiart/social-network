@@ -19,7 +19,7 @@ export const ProfileInfo = (props: any) => {
       </div>
       <div className={s.infoContainer}>
         <img className={s.userImage} src={props.profile?.photos?.small ?? userPic} alt=""/>
-        <ProfileStatus status={"Hello World!"}/>
+        <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
       </div>
     </>
   )
