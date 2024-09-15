@@ -1,6 +1,5 @@
 import s from './Posts.module.css';
 import {Post} from "./post/Post.tsx";
-import {ChangeEvent} from "react";
 import {Field, Form, Formik} from "formik";
 
 const AddPostForm = (props: any) => {
@@ -21,9 +20,7 @@ const AddPostForm = (props: any) => {
               name="newPost"
               type="textarea"
               value={values.newPost}
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                handleChange("newPost")(e.target.value);
-              }}
+              onChange={handleChange}
             />
           </div>
           <button type="submit" className={s.submit}>Add New Post</button>

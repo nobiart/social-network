@@ -2,7 +2,6 @@ import s from './Dialogs.module.css';
 import {DialogItem} from "./dialogItem/DialogItem.tsx";
 import {Message} from "./message/Message.tsx";
 import {Field, Form, Formik} from "formik";
-import {ChangeEvent} from "react";
 
 const AddMessageForm = (props: any) => {
   return (
@@ -20,11 +19,9 @@ const AddMessageForm = (props: any) => {
           <div>
             <Field
               type="textarea"
-              name="message"
+              name="messageText"
               value={values.messageText}
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                handleChange("messageText")(e.target.value);
-              }}
+              onChange={handleChange}
               placeholder="Enter your message"
             />
           </div>

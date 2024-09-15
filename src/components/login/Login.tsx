@@ -9,18 +9,35 @@ const LoginForm = () => {
         setSubmitting(false);
       }}
     >
-      {({values, isSubmitting, handleSubmit}) => (
+      {({values, isSubmitting, handleSubmit, handleChange}) => (
         <Form onSubmit={handleSubmit}>
           <div>
-            <Field type="text" name="login" placeholder="Login" value={values.login}/>
+            <Field
+              type="text"
+              name="login"
+              placeholder="Login"
+              value={values.login}
+              onChange={handleChange}
+            />
             <ErrorMessage name="login" component="div"/>
           </div>
           <div>
-            <Field type="password" name="password" placeholder="Password" value={values.password}/>
+            <Field
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={values.password}
+              onChange={handleChange}
+            />
             <ErrorMessage name="password" component="div"/>
           </div>
           <div>
-            <Field type="checkbox" name="rememberMe" checked={values.rememberMe}/>
+            <Field
+              type="checkbox"
+              name="rememberMe"
+              checked={values.rememberMe}
+              onChange={handleChange}
+            />
             <span>Remember me</span>
           </div>
           <div>
