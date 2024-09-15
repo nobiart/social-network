@@ -1,8 +1,12 @@
 import s from './Posts.module.css';
 import {Post} from "./post/Post.tsx";
-import {Field, Form, Formik} from "formik";
+import {Form, Formik} from "formik";
+import {TextArea} from "../../common/form/FormControl.tsx";
+import {maxLengthCreator} from "../../../utils/validators.ts";
 
 const AddPostForm = (props: any) => {
+  const maxLength = maxLengthCreator(10);
+
   return (
     <Formik
       initialValues={{newPost: ""}}
@@ -16,11 +20,13 @@ const AddPostForm = (props: any) => {
       {({values, handleSubmit, handleChange}) => (
         <Form onSubmit={handleSubmit}>
           <div>
-            <Field
+            <TextArea
+              label="Message"
               name="newPost"
               type="textarea"
               value={values.newPost}
               onChange={handleChange}
+              validate={maxLength}
             />
           </div>
           <button type="submit" className={s.submit}>Add New Post</button>

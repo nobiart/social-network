@@ -1,9 +1,11 @@
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import {Form, Formik} from "formik";
+import {validateEmail, validatePassword} from "../../utils/validators.ts";
+import {Input} from "../common/form/FormControl.tsx";
 
 const LoginForm = () => {
   return (
     <Formik
-      initialValues={{login: "", password: "", rememberMe: false}}
+      initialValues={{email: "", password: "", rememberMe: false}}
       onSubmit={(values, {setSubmitting}) => {
         console.log(values);
         setSubmitting(false);
@@ -12,33 +14,36 @@ const LoginForm = () => {
       {({values, isSubmitting, handleSubmit, handleChange}) => (
         <Form onSubmit={handleSubmit}>
           <div>
-            <Field
+            <Input
+              label="Email"
               type="text"
-              name="login"
-              placeholder="Login"
-              value={values.login}
+              name="email"
+              placeholder="Email"
+              value={values.email}
               onChange={handleChange}
+              validate={validateEmail}
             />
-            <ErrorMessage name="login" component="div"/>
           </div>
           <div>
-            <Field
+            <Input
+              label="Password"
               type="password"
               name="password"
               placeholder="Password"
               value={values.password}
               onChange={handleChange}
+              validate={validatePassword}
             />
-            <ErrorMessage name="password" component="div"/>
           </div>
           <div>
-            <Field
+            <Input
+              label="Remember me"
               type="checkbox"
               name="rememberMe"
               checked={values.rememberMe}
               onChange={handleChange}
+              // component={Input}
             />
-            <span>Remember me</span>
           </div>
           <div>
             <button type="submit" disabled={isSubmitting}>Login</button>
