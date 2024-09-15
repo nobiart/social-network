@@ -1,13 +1,17 @@
 import {Form, Formik} from "formik";
 import {validateEmail, validatePassword} from "../../utils/validators.ts";
 import {Input} from "../common/form/FormControl.tsx";
+import {connect} from "react-redux";
+import {loginThunkCreator} from "../../redux/authReducer.ts";
+import {Navigate} from "react-router-dom";
 
-const LoginForm = () => {
+const LoginForm = (props: any) => {
   return (
     <Formik
       initialValues={{email: "", password: "", rememberMe: false}}
       onSubmit={(values, {setSubmitting}) => {
         console.log(values);
+        props.handleSubmit(values.email, values.password, values.rememberMe);
         setSubmitting(false);
       }}
     >
@@ -54,11 +58,21 @@ const LoginForm = () => {
   )
 };
 
-export const Login = () => {
+const Login = (props: any) => {
+  if (props.isAuth) {
+    return <Navigate to="/profile"/>
+  }
+
   return (
     <div>
       <h1>Login</h1>
-      <LoginForm/>
+      <LoginForm handleSubmit={props.loginThunkCreator}/>
     </div>
   );
 };
+
+const mapStateToProps = (state: any) => ({
+  isAuth: state.auth.isAuth,
+})
+
+export const LoginContainer = connect(mapStateToProps, {loginThunkCreator})(Login);

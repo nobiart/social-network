@@ -8,7 +8,7 @@ import {DialogsContainer} from "./components/dialogs/DialogsContainer.tsx";
 import {UsersContainer} from "./components/users/UsersContainer.tsx";
 import {ProfileContainer} from "./components/profile/ProfileContainer.tsx";
 import {HeaderContainer} from "./components/header/HeaderContainer.tsx";
-import {Login} from "./components/login/Login.tsx";
+import {LoginContainer} from "./components/login/Login.tsx";
 
 export const App = () => {
   return (
@@ -23,7 +23,7 @@ export const App = () => {
           <Route element={<News/>} path="/news"/>
           <Route element={<Music/>} path="/music"/>
           <Route element={<Settings/>} path="/settings"/>
-          <Route element={<Login/>} path="/login"/>
+          <Route element={<LoginContainer/>} path="/login"/>
         </Routes>
       </div>
     </div>

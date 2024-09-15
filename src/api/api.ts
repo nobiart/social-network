@@ -49,13 +49,18 @@ export const profileAPI = {
 };
 
 export const authAPI = {
-  getAuth() {
+  me() {
     return api.get("auth/me")
       .then(response => response.data);
   },
 
-  getLogin(data: any) {
-    return api.post("auth/login", {}, {...data})
+  login(email: string, password: string, rememberMe: boolean = false) {
+    return api.post("auth/login", {email, password, rememberMe})
       .then(response => response.data);
-  }
+  },
+
+  logout() {
+    return api.delete("auth/login")
+      .then(response => response.data);
+  },
 }
