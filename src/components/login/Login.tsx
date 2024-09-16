@@ -9,14 +9,15 @@ const LoginForm = (props: any) => {
   return (
     <Formik
       initialValues={{email: "", password: "", rememberMe: false}}
-      onSubmit={(values, {setSubmitting}) => {
+      onSubmit={(values, {setSubmitting, setStatus}) => {
         console.log(values);
-        props.handleSubmit(values.email, values.password, values.rememberMe);
+        props.handleSubmit(values.email, values.password, values.rememberMe, setStatus);
         setSubmitting(false);
       }}
     >
-      {({values, isSubmitting, handleSubmit, handleChange}) => (
+      {({values, isSubmitting, handleSubmit, handleChange, status}) => (
         <Form onSubmit={handleSubmit}>
+          <div>{status?.error}</div>
           <div>
             <Input
               label="Email"
@@ -46,7 +47,6 @@ const LoginForm = (props: any) => {
               name="rememberMe"
               checked={values.rememberMe}
               onChange={handleChange}
-              // component={Input}
             />
           </div>
           <div>

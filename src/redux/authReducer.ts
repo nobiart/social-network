@@ -38,12 +38,15 @@ export const getAuthThunkCreator = () => {
   }
 };
 
-export const loginThunkCreator = (email: string, password: string, rememberMe: boolean) => {
+export const loginThunkCreator = (email: string, password: string, rememberMe: boolean, setStatus: (status?: any) => void) => {
   return (dispatch: any) => {
     authAPI.login(email, password, rememberMe)
       .then((data) => {
         if (data.resultCode === 0) {
           dispatch(getAuthThunkCreator());
+        } else {
+          const message = data.messages.length > 0 ? data.messages[0] : "Something went wrong";
+          setStatus({error: message});
         }
       });
   }

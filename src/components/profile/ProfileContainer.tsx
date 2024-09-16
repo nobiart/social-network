@@ -14,7 +14,7 @@ import {compose} from "redux";
 
 class ProfileClass extends React.Component<any, any> {
   componentDidMount() {
-    const userId = this.props.router.params.userId ?? 31654;
+    const userId = this.props.router.params.userId ?? this.props.userId;
     console.log('userId', userId);
     // this.props.getProfileThunkCreator(userId);
     // this.props.getStatusThunkCreator(userId);
@@ -51,6 +51,7 @@ const mapStateToProps = (state: any) => {
   return {
     profile: state.profilePage.profile,
     status: state.profilePage.status,
+    userId: state.auth.id,
   }
 }
 
