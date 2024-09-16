@@ -83,10 +83,11 @@ export const toggleFollowing = (userId: number, isFetching: boolean) => ({
   isFetching
 });
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+export const getUsersThunkCreator = (page: number, pageSize: number) => {
   return (dispatch: any) => {
     dispatch(toggleFetching(true));
-    usersAPI.getUsers(currentPage, pageSize).then((data) => {
+    dispatch(setCurrentPage(page));
+    usersAPI.getUsers(page, pageSize).then((data) => {
       dispatch(setUsers(data.items));
       dispatch(setTotalCount(data.totalCount));
       dispatch(toggleFetching(false));
