@@ -15,24 +15,23 @@ import {compose} from "redux";
 class ProfileClass extends React.Component<any, any> {
   componentDidMount() {
     const userId = this.props.router.params.userId ?? this.props.userId;
-    console.log('userId', userId);
-    // this.props.getProfileThunkCreator(userId);
-    // this.props.getStatusThunkCreator(userId);
+    this.props.getProfileThunkCreator(userId);
+    this.props.getStatusThunkCreator(userId);
     // this.props.updateStatusThunkCreator(this.props.status);
-    this.props.setStatus("");
-    this.props.setUserProfile({
-      userId: 31654,
-      lookingForAJob: false,
-      lookingForAJobDescription: 'test',
-      fullName: 'Dmitri B.',
-      contacts: {
-        github: 'https://github.com/nobiart',
-      },
-      photos: {
-        small: null,
-        large: null,
-      }
-    })
+    // this.props.setStatus("");
+    // this.props.setUserProfile({
+    //   userId: 31654,
+    //   lookingForAJob: false,
+    //   lookingForAJobDescription: 'test',
+    //   fullName: 'Dmitri B.',
+    //   contacts: {
+    //     github: 'https://github.com/nobiart',
+    //   },
+    //   photos: {
+    //     small: null,
+    //     large: null,
+    //   }
+    // })
   }
 
   render() {
