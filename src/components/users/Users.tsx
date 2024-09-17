@@ -1,35 +1,42 @@
 import {User} from "./user/User.tsx";
-import s from "./Users.module.css";
+import {Pagination} from "../common/pagination/Pagination.tsx";
 
-export const Users = (props: any) => {
-  const pagesCount = Math.ceil(props.totalCount / props.pageSize);
-  const pages = [];
-  for (let i = 1; i <= pagesCount; i++) {
-    pages.push(i);
-  }
+interface IUsersProps {
+  users: any,
+  totalCount: number,
+  pageSize: number,
+  currentPage: number,
+  onChangePage: (page: number) => void,
+  follow: (id: number) => void,
+  unfollow: (id: number) => void,
+  isFollowing: number[],
+}
 
+export const Users = ({
+                        users,
+                        totalCount,
+                        pageSize,
+                        currentPage,
+                        onChangePage,
+                        follow,
+                        unfollow,
+                        isFollowing
+                      }: IUsersProps) => {
   return (
     <>
-      <div className={s.pagination}>
-        {pages.map(p => {
-          return (
-            <span
-              key={p}
-              onClick={() => props.onChangePage(p)}
-              className={props.currentPage === p ? s.active : ''}
-            >
-                {p}
-              </span>
-          )
-        })}
-      </div>
-      {props.users.map((user: any) => (
+      <Pagination
+        onChangePage={onChangePage}
+        totalCount={totalCount}
+        pageSize={pageSize}
+        currentPage={currentPage}
+      />
+      {users.map((user: any) => (
         <User
           key={user.id}
           user={user}
-          follow={props.follow}
-          unfollow={props.unfollow}
-          isFollowing={props.isFollowing}
+          follow={follow}
+          unfollow={unfollow}
+          isFollowing={isFollowing}
         />
       ))}
     </>

@@ -1,12 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {
-  getProfileThunkCreator,
-  getStatusThunkCreator,
-  setStatus,
-  setUserProfile,
-  updateStatusThunkCreator
-} from "../../redux/profileReducer.ts";
+import {getProfileThunkCreator, getStatusThunkCreator, updateStatusThunkCreator} from "../../redux/profileReducer.ts";
 import {Profile} from "./Profile.tsx";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect.tsx";
@@ -17,27 +11,12 @@ class ProfileClass extends React.Component<any, any> {
     const userId = this.props.router.params.userId ?? this.props.userId;
     this.props.getProfileThunkCreator(userId);
     this.props.getStatusThunkCreator(userId);
-    // this.props.updateStatusThunkCreator(this.props.status);
-    // this.props.setStatus("");
-    // this.props.setUserProfile({
-    //   userId: 31654,
-    //   lookingForAJob: false,
-    //   lookingForAJobDescription: 'test',
-    //   fullName: 'Dmitri B.',
-    //   contacts: {
-    //     github: 'https://github.com/nobiart',
-    //   },
-    //   photos: {
-    //     small: null,
-    //     large: null,
-    //   }
-    // })
+    this.props.updateStatusThunkCreator(this.props.status);
   }
 
   render() {
     return (
       <Profile
-        {...this.props}
         profile={this.props.profile}
         status={this.props.status}
         updateStatus={this.props.updateStatusThunkCreator}
@@ -72,8 +51,6 @@ function withRouter(ProfileClass: any) {
 
 export const ProfileContainer = compose(
   connect(mapStateToProps, {
-    setUserProfile,
-    setStatus,
     getProfileThunkCreator,
     getStatusThunkCreator,
     updateStatusThunkCreator,

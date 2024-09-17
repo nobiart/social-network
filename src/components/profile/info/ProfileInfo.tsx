@@ -1,25 +1,27 @@
 import s from "./ProfileInfo.module.css";
-// import mainImage from "../../../assets/main-image.jpg";
 import userPic from "../../../assets/username.png";
 import {Preloader} from "../../common/preloader/Preloader.tsx";
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks.tsx";
 
-export const ProfileInfo = (props: any) => {
-  if (!props.profile) {
+interface IProfileInfoProps {
+  profile: any,
+  status: any,
+  updateStatus: any,
+}
+
+export const ProfileInfo = ({profile, status, updateStatus}: IProfileInfoProps) => {
+  if (!profile) {
     return <Preloader/>;
   }
 
   return (
     <>
-      {/*<div>*/}
-      {/*  <img className={s.mainImage} src={mainImage} alt=""/>*/}
-      {/*</div>*/}
       <div>
-        {props.profile.fullName}
+        {profile.fullName}
       </div>
       <div className={s.infoContainer}>
-        <img className={s.userImage} src={props.profile?.photos?.small ?? userPic} alt=""/>
-        <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
+        <img className={s.userImage} src={profile?.photos?.small ?? userPic} alt=""/>
+        <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
       </div>
     </>
   )

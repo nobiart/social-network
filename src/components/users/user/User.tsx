@@ -2,12 +2,14 @@ import s from './User.module.css';
 import defaultPic from '../../../assets/username.png';
 import {NavLink} from "react-router-dom";
 
-export const User = ({user, follow, unfollow, isFollowing}: {
+interface IUserProps {
   user: any,
-  follow: any,
-  unfollow: any,
+  follow: (id: number) => void,
+  unfollow: (id: number) => void,
   isFollowing: number[],
-}) => {
+}
+
+export const User = ({user, follow, unfollow, isFollowing}: IUserProps) => {
   return (
     <div className={s.wrapper}>
       <div className={s.shortInfo}>

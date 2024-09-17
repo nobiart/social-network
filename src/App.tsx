@@ -18,9 +18,6 @@ import {Preloader} from "./components/common/preloader/Preloader.tsx";
 class AppClass extends React.Component<any, any> {
   componentDidMount() {
     this.props.initializeApp();
-    // this.props.setAuthUserData(31654, "dmitri.besleaga@internet.ru", "nobiart");
-    // this.props.setAuthUserData(1, "dmitri@internet.ru", "dada");
-    // this.props.setAuthUserData(undefined);
   }
 
   render() {

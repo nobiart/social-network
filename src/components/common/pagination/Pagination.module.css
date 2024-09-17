@@ -1,0 +1,9 @@
+.pagination {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.active {
+  font-weight: bold;
+}

@@ -5,13 +5,22 @@ import {connect} from "react-redux";
 import {loginThunkCreator} from "../../redux/authReducer.ts";
 import {Navigate} from "react-router-dom";
 
-const LoginForm = (props: any) => {
+interface ILoginFormProps {
+  handleSubmit: (
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    setStatus: (status?: any) => void
+  ) => void;
+}
+
+const LoginForm = ({handleSubmit}: ILoginFormProps) => {
   return (
     <Formik
       initialValues={{email: "", password: "", rememberMe: false}}
       onSubmit={(values, {setSubmitting, setStatus}) => {
         console.log(values);
-        props.handleSubmit(values.email, values.password, values.rememberMe, setStatus);
+        handleSubmit(values.email, values.password, values.rememberMe, setStatus);
         setSubmitting(false);
       }}
     >
@@ -58,15 +67,25 @@ const LoginForm = (props: any) => {
   )
 };
 
-const Login = (props: any) => {
-  if (props.isAuth) {
+interface ILoginProps {
+  isAuth: boolean;
+  loginThunkCreator: (
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    setStatus: (status?: any) => void
+  ) => void;
+}
+
+const Login = ({isAuth, loginThunkCreator}: ILoginProps) => {
+  if (isAuth) {
     return <Navigate to="/profile"/>
   }
 
   return (
     <div>
       <h1>Login</h1>
-      <LoginForm handleSubmit={props.loginThunkCreator}/>
+      <LoginForm handleSubmit={loginThunkCreator}/>
     </div>
   );
 };
