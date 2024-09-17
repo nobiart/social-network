@@ -12,19 +12,19 @@ const api = axios.create({
 });
 
 export const usersAPI = {
-  getUsers(currentPage: number = 1, pageSize: number = 5) {
-    return api.get(`users?page=${currentPage}&count=${pageSize}`)
-      .then(response => response.data);
+  async getUsers(currentPage: number = 1, pageSize: number = 5) {
+    const response = await api.get(`users?page=${currentPage}&count=${pageSize}`);
+    return response.data;
   },
 
-  follow(userId: number) {
-    return api.post(`follow/${userId}`)
-      .then(response => response.data);
+  async follow(userId: string) {
+    const response = await api.post(`follow/${userId}`);
+    return response.data;
   },
 
-  unfollow(userId: number) {
-    return api.delete(`follow/${userId}`)
-      .then(response => response.data);
+  async unfollow(userId: string) {
+    const response = await api.delete(`follow/${userId}`);
+    return response.data;
   }
 };
 
