@@ -3,6 +3,7 @@ import {Post} from "./post/Post.tsx";
 import {Form, Formik} from "formik";
 import {TextArea} from "../../common/form/FormControl.tsx";
 import {maxLengthCreator} from "../../../utils/validators.ts";
+import {memo} from "react";
 
 const AddPostForm = (props: any) => {
   const maxLength = maxLengthCreator(10);
@@ -36,7 +37,7 @@ const AddPostForm = (props: any) => {
   )
 }
 
-export const Posts = (props: any) => {
+export const Posts = memo((props: any) => {
   return (
     <div className={s.container}>
       <h3>My Posts</h3>
@@ -46,4 +47,4 @@ export const Posts = (props: any) => {
       </div>
     </div>
   )
-};
+});
