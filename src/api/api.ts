@@ -8,9 +8,6 @@ const api = axios.create({
   withCredentials: true,
   headers: {
     "API-KEY": API_KEY,
-    // Authorization: `Bearer 3f1722b4-4c9d-47f1-bca7-f5ca22fc7326`,
-    // "Access-Control-Allow-Credentials": true,
-    // "Access-Control-Allow-Origin": "localhost",
   }
 });
 
@@ -49,18 +46,18 @@ export const profileAPI = {
 };
 
 export const authAPI = {
-  me() {
-    return api.get("auth/me")
-      .then(response => response.data);
+  async me() {
+    const response = await api.get("auth/me");
+    return response.data;
   },
 
-  login(email: string, password: string, rememberMe: boolean = false) {
-    return api.post("auth/login", {email, password, rememberMe})
-      .then(response => response.data);
+  async login(email: string, password: string, rememberMe: boolean = false) {
+    const response = await api.post("auth/login", {email, password, rememberMe});
+    return response.data;
   },
 
-  logout() {
-    return api.delete("auth/login")
-      .then(response => response.data);
+  async logout() {
+    const response = await api.delete("auth/login");
+    return response.data;
   },
 }
