@@ -56,27 +56,20 @@ export const deletePostActionCreator = (id: string) => ({type: DELETE_POST, id})
 export const setUserProfile = (profile: any) => ({type: SET_USER_PROFILE, profile});
 export const setStatus = (status: any) => ({type: SET_STATUS, status});
 
-export const getProfileThunkCreator = (userId: number) => {
-  return (dispatch: any) => {
-    profileAPI.getProfile(userId)
-      .then(data => dispatch(setUserProfile(data)));
-  }
+export const getProfileThunkCreator = (userId: number) => async (dispatch: any) => {
+  const data = await profileAPI.getProfile(userId);
+  dispatch(setUserProfile(data));
 };
 
-export const getStatusThunkCreator = (userId: number) => {
-  return (dispatch: any) => {
-    profileAPI.getStatus(userId)
-      .then(data => dispatch(setStatus(data)));
-  }
-}
+export const getStatusThunkCreator = (userId: number) => async (dispatch: any) => {
+  const data = await profileAPI.getStatus(userId);
+  dispatch(setStatus(data));
+};
 
-export const updateStatusThunkCreator = (text: string) => {
-  return (dispatch: any) => {
-    profileAPI.updateStatus(text)
-      .then(data => {
-        if (data.resultCode === 0) {
-          dispatch(setStatus(text));
-        }
-      });
+export const updateStatusThunkCreator = (text: string) => async (dispatch: any) => {
+  const data = await profileAPI.updateStatus(text);
+
+  if (data.resultCode === 0) {
+    dispatch(setStatus(text));
   }
-}
+};

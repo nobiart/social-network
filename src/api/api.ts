@@ -29,19 +29,19 @@ export const usersAPI = {
 };
 
 export const profileAPI = {
-  getProfile(userId: number) {
-    return api.get(`profile/${userId}`)
-      .then(response => response.data);
+  async getProfile(userId: number) {
+    const response = await api.get(`profile/${userId}`);
+    return response.data;
   },
 
-  getStatus(userId: number) {
-    return api.get(`profile/status/${userId}`)
-      .then(response => response.data);
+  async getStatus(userId: number) {
+    const response = await api.get(`profile/status/${userId}`);
+    return response.data;
   },
 
-  updateStatus(status: any) {
-    return api.put("profile/status", {status})
-      .then(response => response.data);
+  async updateStatus(status: any) {
+    const response = await api.put("profile/status", {status});
+    return response.data;
   }
 };
 
