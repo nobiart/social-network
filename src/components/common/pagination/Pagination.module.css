@@ -1,9 +1,22 @@
 .pagination {
   display: flex;
+  align-items: center;
   gap: 4px;
   flex-wrap: wrap;
+  padding: 16px;
+}
+
+.pageItem {
+  padding: 4px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.pageItem:hover {
+  background-color: #eabd9e;
 }
 
 .active {
   font-weight: bold;
+  background-color: #eabd9e;
 }

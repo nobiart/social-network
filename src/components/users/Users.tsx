@@ -26,9 +26,10 @@ export const Users = ({
     <>
       <Pagination
         onChangePage={onChangePage}
-        totalCount={totalCount}
+        totalItemsCount={totalCount}
         pageSize={pageSize}
         currentPage={currentPage}
+        portionSize={10}
       />
       {users.map((user: any) => (
         <User
