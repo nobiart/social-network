@@ -1,6 +1,6 @@
 import './App.css';
 import {NavBar} from "./components/navbar/NavBar.tsx";
-import {Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
+import {BrowserRouter, Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
 import {News} from "./components/news/News.tsx";
 import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
@@ -9,11 +9,12 @@ import {UsersContainer} from "./components/users/UsersContainer.tsx";
 import {ProfileContainer} from "./components/profile/ProfileContainer.tsx";
 import {HeaderContainer} from "./components/header/HeaderContainer.tsx";
 import {LoginContainer} from "./components/login/Login.tsx";
-import {connect} from "react-redux";
+import {connect, Provider} from "react-redux";
 import React from "react";
 import {compose} from "redux";
 import {initializeApp} from "./redux/appReducer.ts";
 import {Preloader} from "./components/common/preloader/Preloader.tsx";
+import {store} from "./redux/reduxStore.ts";
 
 class AppClass extends React.Component<any, any> {
   componentDidMount() {
@@ -63,7 +64,19 @@ const mapStateToProps = (state: any) => ({
   initialized: state.app.initialized,
 })
 
-export const App = compose(
+const AppContainer = compose<any>(
   connect(mapStateToProps, {initializeApp}),
   withRouter,
 )(AppClass);
+
+export const MainApp = () => {
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <AppContainer/>
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  )
+}

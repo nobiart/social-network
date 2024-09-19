@@ -35,7 +35,7 @@ export const ProfileStatusWithHooks = (props: any) => {
         </div>
       ) : (
         <div>
-            <span onDoubleClick={activateEditMode}>
+            <span onDoubleClick={activateEditMode} data-testid="status">
               {status.length > 0 ? status : "No Status"}
             </span>
         </div>

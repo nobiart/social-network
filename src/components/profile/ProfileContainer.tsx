@@ -49,7 +49,7 @@ function withRouter(ProfileClass: any) {
   return ComponentWithRouterProp;
 }
 
-export const ProfileContainer = compose(
+export const ProfileContainer = compose<any>(
   connect(mapStateToProps, {
     getProfileThunkCreator,
     getStatusThunkCreator,
