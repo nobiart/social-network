@@ -3,13 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://nobiart.github.io/social-network",
   "scripts": {
     "dev": "vite",
     "dev-clear-cache": "vite --force",
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test:unit": "vitest --root src/"
+    "test:unit": "vitest --root src/",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "axios": "^1.7.7",
@@ -33,6 +36,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "gh-pages": "^6.1.1",
     "jsdom": "^25.0.0",
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
