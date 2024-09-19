@@ -91,4 +91,4 @@ export const MainApp = () => {
       </BrowserRouter>
     </React.StrictMode>
   )
-}
+};
