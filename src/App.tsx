@@ -4,9 +4,7 @@ import {BrowserRouter, Route, Routes, useLocation, useNavigate, useParams} from 
 import {News} from "./components/news/News.tsx";
 import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
-import {DialogsContainer} from "./components/dialogs/DialogsContainer.tsx";
 import {UsersContainer} from "./components/users/UsersContainer.tsx";
-import {ProfileContainer} from "./components/profile/ProfileContainer.tsx";
 import {HeaderContainer} from "./components/header/HeaderContainer.tsx";
 import {LoginContainer} from "./components/login/Login.tsx";
 import {connect, Provider} from "react-redux";
@@ -15,6 +13,20 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/appReducer.ts";
 import {Preloader} from "./components/common/preloader/Preloader.tsx";
 import {store} from "./redux/reduxStore.ts";
+import {withSuspense} from "./hoc/withSuspense.tsx";
+
+const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsContainer")
+  .then(module => ({
+      default: module.DialogsContainer
+    })
+  )
+);
+
+const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer")
+  .then(module => ({
+    default: module.ProfileContainer
+  }))
+);
 
 class AppClass extends React.Component<any, any> {
   componentDidMount() {
@@ -30,8 +42,8 @@ class AppClass extends React.Component<any, any> {
         <NavBar/>
         <div className='app-content'>
           <Routes>
-            <Route element={<ProfileContainer/>} path="/profile/:userId?"/>
-            <Route element={<DialogsContainer/>} path="/dialogs/*"/>
+            <Route Component={withSuspense(ProfileContainer)} path="/profile/:userId?"/>
+            <Route Component={withSuspense(DialogsContainer)} path="/dialogs/*"/>
             <Route element={<UsersContainer/>} path="/users"/>
             <Route element={<News/>} path="/news"/>
             <Route element={<Music/>} path="/music"/>
