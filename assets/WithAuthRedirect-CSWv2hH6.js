@@ -1,1 +1,0 @@
-import{R as o,j as s,n as r,d as n}from"./index-DsrFnNDg.js";const a=t=>({isAuth:t.auth.isAuth}),u=t=>{class e extends o.Component{render(){return this.props.isAuth?s.jsx(t,{...this.props}):s.jsx(r,{to:"/login"})}}return n(a)(e)};export{u as w};
