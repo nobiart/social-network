@@ -7,6 +7,7 @@ export default defineConfig({
   server: {
     port: 3001,
   },
+  base: "/social-network/",
   build: {
     outDir: "build",
     emptyOutDir: true,
