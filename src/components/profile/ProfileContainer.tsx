@@ -4,6 +4,7 @@ import {
   getProfileThunkCreator,
   getStatusThunkCreator,
   saveProfilePhotoThunkCreator,
+  saveProfileThunkCreator,
   updateStatusThunkCreator
 } from "../../redux/profileReducer.ts";
 import {Profile} from "./Profile.tsx";
@@ -19,7 +20,6 @@ class ProfileClass extends React.Component<any, any> {
     }
     this.props.getProfileThunkCreator(userId);
     this.props.getStatusThunkCreator(userId);
-    this.props.updateStatusThunkCreator(this.props.status);
   }
 
   componentDidMount() {
@@ -38,8 +38,9 @@ class ProfileClass extends React.Component<any, any> {
         isOwner={!this.props.router.params.userId}
         profile={this.props.profile}
         status={this.props.status}
-        updateStatus={this.props.updateStatusThunkCreator}
+        updateStatus={this.props.updateStatus}
         savePhoto={this.props.savePhoto}
+        saveProfile={this.props.saveProfile}
       />
     )
   }
@@ -73,8 +74,9 @@ export const ProfileContainer = compose<any>(
   connect(mapStateToProps, {
     getProfileThunkCreator,
     getStatusThunkCreator,
-    updateStatusThunkCreator,
+    updateStatus: updateStatusThunkCreator,
     savePhoto: saveProfilePhotoThunkCreator,
+    saveProfile: saveProfileThunkCreator,
   }),
   withRouter,
   withAuthRedirect,

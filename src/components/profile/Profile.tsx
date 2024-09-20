@@ -7,9 +7,10 @@ interface IProfileProps {
   status: string,
   updateStatus: (status: string) => void,
   savePhoto: (file?: File) => void;
+  saveProfile: (formData: any, setStatus: (status?: any) => void) => Promise<void>;
 }
 
-export const Profile = ({isOwner, profile, status, updateStatus, savePhoto}: IProfileProps) => {
+export const Profile = ({isOwner, profile, status, updateStatus, savePhoto, saveProfile}: IProfileProps) => {
   return (
     <div>
       <ProfileInfo
@@ -18,6 +19,7 @@ export const Profile = ({isOwner, profile, status, updateStatus, savePhoto}: IPr
         status={status}
         updateStatus={updateStatus}
         savePhoto={savePhoto}
+        saveProfile={saveProfile}
       />
       <PostsContainer/>
     </div>

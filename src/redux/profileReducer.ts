@@ -89,3 +89,15 @@ export const saveProfilePhotoThunkCreator = (photo: File) => async (dispatch: an
     dispatch(setPhotos(data.data.photos));
   }
 };
+
+export const saveProfileThunkCreator = (formData: any, setStatus: (status?: any) => void) => async (dispatch: any, getState: any) => {
+  const data = await profileAPI.updateProfile(formData);
+
+  if (data.resultCode === 0) {
+    dispatch(getProfileThunkCreator(getState().auth.id));
+  } else {
+    const message = data.messages.length > 0 ? data.messages[0] : "Something went wrong";
+    setStatus({error: message});
+    return Promise.reject(message);
+  }
+};

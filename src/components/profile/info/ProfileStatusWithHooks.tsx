@@ -30,6 +30,7 @@ export const ProfileStatusWithHooks = ({status, updateStatus}: IProfileStatusPro
 
   return (
     <div>
+      <div><b>Status:</b></div>
       {editMode ? (
         <div>
           <input

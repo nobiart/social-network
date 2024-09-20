@@ -50,6 +50,12 @@ export const profileAPI = {
     });
 
     return response.data;
+  },
+
+  async updateProfile(formData: any) {
+    const response = await api.put("profile", formData);
+
+    return response.data;
   }
 };
 
