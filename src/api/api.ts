@@ -42,6 +42,14 @@ export const profileAPI = {
   async updateStatus(status: any) {
     const response = await api.put("profile/status", {status});
     return response.data;
+  },
+
+  async updatePhoto(photo: File) {
+    const response = await api.put("profile/photo", {photo}, {
+      headers: {"Content-Type": "multipart/form-data"}
+    });
+
+    return response.data;
   }
 };
 

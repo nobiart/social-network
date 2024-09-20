@@ -1,12 +1,19 @@
 import {useEffect, useState} from "react";
 
-export const ProfileStatusWithHooks = (props: any) => {
+interface IProfileStatusProps {
+  status: string,
+  updateStatus: (status: string) => void,
+}
+
+// @TODO to debug why the status is resetting after component mounts
+
+export const ProfileStatusWithHooks = ({status, updateStatus}: IProfileStatusProps) => {
   const [editMode, setEditMode] = useState(false);
-  const [status, setStatus] = useState(props.status);
+  const [localStatus, setLocalStatus] = useState(status);
 
   useEffect(() => {
-    setStatus(props.status);
-  }, [props.status]);
+    setLocalStatus(status);
+  }, [status]);
 
   const activateEditMode = () => {
     setEditMode(true);
@@ -14,11 +21,11 @@ export const ProfileStatusWithHooks = (props: any) => {
 
   const deactivateEditMode = () => {
     setEditMode(false);
-    props.updateStatus(status);
+    updateStatus(localStatus);
   }
 
   const onChangeStatus = (e: any) => {
-    setStatus(e.target?.value);
+    setLocalStatus(e.target?.value);
   }
 
   return (
@@ -29,14 +36,14 @@ export const ProfileStatusWithHooks = (props: any) => {
             type="text"
             onChange={onChangeStatus}
             onBlur={deactivateEditMode}
-            value={status}
+            value={localStatus}
             autoFocus={true}
           />
         </div>
       ) : (
         <div>
             <span onDoubleClick={activateEditMode} data-testid="status">
-              {status.length > 0 ? status : "No Status"}
+              {localStatus?.length > 0 ? localStatus : "No Status"}
             </span>
         </div>
       )}

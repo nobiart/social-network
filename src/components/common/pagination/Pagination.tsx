@@ -1,5 +1,6 @@
 import s from "./Pagination.module.css";
 import {useState} from "react";
+import classNames from "classnames";
 
 interface IPaginationProps {
   totalItemsCount: number,
@@ -39,7 +40,9 @@ export const Pagination = ({
             <span
               key={p}
               onClick={() => onChangePage(p)}
-              className={s.pageItem + " " + (currentPage === p ? s.active : '')}
+              className={classNames({
+                [s.active]: currentPage === p
+              }, s.pageItem)}
             >
                 {p}
               </span>

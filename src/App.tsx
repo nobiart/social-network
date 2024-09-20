@@ -84,7 +84,7 @@ const AppContainer = compose<any>(
 export const MainApp = () => {
   return (
     <React.StrictMode>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <BrowserRouter>
         <Provider store={store}>
           <AppContainer/>
         </Provider>
