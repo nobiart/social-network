@@ -29,8 +29,18 @@ const ProfileContainer = React.lazy(() => import("./components/profile/ProfileCo
 );
 
 class AppClass extends React.Component<any, any> {
+  // catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
+  //   alert("Some error");
+  //   console.log(promiseRejectionEvent);
+  // }
+
   componentDidMount() {
     this.props.initializeApp();
+    // window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+  }
+
+  componentWillUnmount() {
+    // window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
   }
 
   render() {
@@ -42,6 +52,7 @@ class AppClass extends React.Component<any, any> {
         <NavBar/>
         <div className='app-content'>
           <Routes>
+            <Route Component={withSuspense(ProfileContainer)} path="/"/>
             <Route Component={withSuspense(ProfileContainer)} path="/profile/:userId?"/>
             <Route Component={withSuspense(DialogsContainer)} path="/dialogs/*"/>
             <Route element={<UsersContainer/>} path="/users"/>
@@ -49,6 +60,7 @@ class AppClass extends React.Component<any, any> {
             <Route element={<Music/>} path="/music"/>
             <Route element={<Settings/>} path="/settings"/>
             <Route element={<LoginContainer/>} path="/login"/>
+            <Route element={<div>404 NOT FOUND</div>} path="*"/>
           </Routes>
         </div>
       </div>
