@@ -65,8 +65,8 @@ export const authAPI = {
     return response.data;
   },
 
-  async login(email: string, password: string, rememberMe: boolean = false) {
-    const response = await api.post("auth/login", {email, password, rememberMe});
+  async login(email: string, password: string, rememberMe: boolean = false, captchaUrl: string | null) {
+    const response = await api.post("auth/login", {email, password, rememberMe, captcha: captchaUrl});
     return response.data;
   },
 
@@ -74,4 +74,11 @@ export const authAPI = {
     const response = await api.delete("auth/login");
     return response.data;
   },
-}
+};
+
+export const securityAPI = {
+  async getCaptchaUrl() {
+    const response = await api.get("security/get-captcha-url");
+    return response.data;
+  }
+};
