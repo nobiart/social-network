@@ -1,20 +1,21 @@
 import s from './User.module.css';
 import defaultPic from '../../../assets/username.png';
 import {NavLink} from "react-router-dom";
+import {UserType} from "../../../redux/usersReducer.ts";
 
-interface IUserProps {
-  user: any,
+type UserPropsType = {
+  user: UserType,
   follow: (id: number) => void,
   unfollow: (id: number) => void,
   isFollowing: number[],
 }
 
-export const User = ({user, follow, unfollow, isFollowing}: IUserProps) => {
+export const User = ({user, follow, unfollow, isFollowing}: UserPropsType) => {
   return (
     <div className={s.wrapper}>
       <div className={s.shortInfo}>
         <NavLink to={`/profile/${user.id}`}>
-          <img className={s.profileImg} src={user.photos?.small ?? defaultPic} alt={user.name ?? user.fullName}/>
+          <img className={s.profileImg} src={user.photos?.small ?? defaultPic} alt={user.name}/>
         </NavLink>
         {user.followed
           ? <button

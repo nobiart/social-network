@@ -1,8 +1,9 @@
 import {User} from "./user/User.tsx";
 import {Pagination} from "../common/pagination/Pagination.tsx";
+import {UserType} from "../../redux/usersReducer.ts";
 
-interface IUsersProps {
-  users: any,
+type UsersPropsType = {
+  users: UserType[],
   totalCount: number,
   pageSize: number,
   currentPage: number,
@@ -12,16 +13,17 @@ interface IUsersProps {
   isFollowing: number[],
 }
 
-export const Users = ({
-                        users,
-                        totalCount,
-                        pageSize,
-                        currentPage,
-                        onChangePage,
-                        follow,
-                        unfollow,
-                        isFollowing
-                      }: IUsersProps) => {
+export const Users = (
+  {
+    users,
+    totalCount,
+    pageSize,
+    currentPage,
+    onChangePage,
+    follow,
+    unfollow,
+    isFollowing
+  }: UsersPropsType) => {
   return (
     <>
       <Pagination
@@ -29,9 +31,8 @@ export const Users = ({
         totalItemsCount={totalCount}
         pageSize={pageSize}
         currentPage={currentPage}
-        portionSize={10}
       />
-      {users.map((user: any) => (
+      {users.map((user) => (
         <User
           key={user.id}
           user={user}

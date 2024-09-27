@@ -10,7 +10,7 @@ const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
 
-type UsersType = {
+export type UserType = {
   id: number;
   name: string;
   status: string;
@@ -19,7 +19,7 @@ type UsersType = {
 }
 
 type UsersStateType = {
-  users: UsersType[];
+  users: UserType[];
   pageSize: number;
   totalCount: number;
   currentPage: number;
@@ -94,9 +94,9 @@ export const unfollow = (userId: number): UnfollowActionType => ({type: UNFOLLOW
 
 type SetUsersActionType = {
   type: typeof SET_USERS;
-  users: UsersType;
+  users: UserType;
 }
-export const setUsers = (users: UsersType): SetUsersActionType => ({type: SET_USERS, users});
+export const setUsers = (users: UserType): SetUsersActionType => ({type: SET_USERS, users});
 
 type SetCurrentPageActionType = {
   type: typeof SET_CURRENT_PAGE;
