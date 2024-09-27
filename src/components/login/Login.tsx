@@ -2,27 +2,29 @@ import {Form, Formik} from "formik";
 import {validateEmail, validatePassword} from "../../utils/validators.ts";
 import {Input} from "../common/form/FormControl.tsx";
 import {connect} from "react-redux";
-import {loginThunkCreator} from "../../redux/authReducer.ts";
+import {AuthLoginActionType, loginThunkCreator} from "../../redux/authReducer.ts";
 import {Navigate} from "react-router-dom";
 
 interface ILoginFormProps {
-  handleSubmit: (
-    email: string,
-    password: string,
-    rememberMe: boolean,
-    captcha: string,
-    setStatus: (status?: any) => void
-  ) => void;
+  handleSubmit: SubmitLoginType;
   captchaUrl: string | null;
 }
+
+type SubmitLoginType = ({email, password, rememberMe, captcha, setStatus}: AuthLoginActionType) => void;
 
 const LoginForm = ({handleSubmit, captchaUrl}: ILoginFormProps) => {
   return (
     <Formik
-      initialValues={{email: "", password: "", rememberMe: false, captcha: ""}}
+      initialValues={{email: "", password: "", rememberMe: false, captcha: null}}
       onSubmit={(values, {setSubmitting, setStatus}) => {
         console.log(values);
-        handleSubmit(values.email, values.password, values.rememberMe, values.captcha, setStatus);
+        handleSubmit({
+          email: values.email,
+          password: values.password,
+          rememberMe: values.rememberMe,
+          captcha: values.captcha,
+          setStatus,
+        });
         setSubmitting(false);
       }}
     >
@@ -78,13 +80,7 @@ const LoginForm = ({handleSubmit, captchaUrl}: ILoginFormProps) => {
 interface ILoginProps {
   isAuth: boolean;
   captchaUrl: string | null;
-  loginThunkCreator: (
-    email: string,
-    password: string,
-    rememberMe: boolean,
-    captcha: string,
-    setStatus: (status?: any) => void
-  ) => void;
+  loginThunkCreator: SubmitLoginType;
 }
 
 const Login = ({isAuth, captchaUrl, loginThunkCreator}: ILoginProps) => {
