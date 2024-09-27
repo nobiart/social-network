@@ -1,12 +1,16 @@
 import {getAuthThunkCreator} from "./authReducer.ts";
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
+type AppStateType = {
+  initialized: boolean;
+}
 
-const initialState = {
+const INITIALIZED_SUCCESS = 'SN/APP/INITIALIZED_SUCCESS';
+
+const initialState: AppStateType = {
   initialized: false,
 };
 
-export const appReducer = (state: any = initialState, action: any) => {
+export const appReducer = (state = initialState, action: AppActionType): AppStateType => {
   switch (action.type) {
     case INITIALIZED_SUCCESS:
       return {
@@ -18,7 +22,11 @@ export const appReducer = (state: any = initialState, action: any) => {
   }
 };
 
-export const initializedSuccess = () => ({type: INITIALIZED_SUCCESS});
+type AppActionType = {
+  type: typeof INITIALIZED_SUCCESS;
+}
+
+export const initializedSuccess = (): AppActionType => ({type: INITIALIZED_SUCCESS});
 
 export const initializeApp = () => {
   return (dispatch: any) => {
