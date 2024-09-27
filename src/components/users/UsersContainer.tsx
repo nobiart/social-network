@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {followThunkCreator, getUsersThunkCreator, unfollowThunkCreator} from "../../redux/usersReducer.ts";
+import {followThunkCreator, getUsersThunkCreator, unfollowThunkCreator, UserType} from "../../redux/usersReducer.ts";
 import React from "react";
 import {Users} from "./Users.tsx";
 import {Preloader} from "../common/preloader/Preloader.tsx";
@@ -12,8 +12,26 @@ import {
   getTotalUsersCount,
   getUsers
 } from "../../redux/usersSelectors.ts";
+import {AppStateType} from "../../redux/reduxStore.ts";
 
-class UsersAPIComponent extends React.Component<any, any> {
+type MapStatePropsType = {
+  users: UserType[],
+  pageSize: number,
+  totalCount: number,
+  currentPage: number,
+  isFetching: boolean,
+  isFollowingInProgress: number[],
+};
+
+type MapDispatchPropsType = {
+  follow: (id: number) => void,
+  unfollow: (id: number) => void,
+  getUsers: (currentPage: number, pageSize: number) => void,
+};
+
+type UsersContainerPropsType = MapStatePropsType & MapDispatchPropsType;
+
+class UsersAPIComponent extends React.Component<UsersContainerPropsType> {
   componentDidMount() {
     const {getUsers, currentPage, pageSize} = this.props;
     getUsers(currentPage, pageSize);
@@ -43,7 +61,7 @@ class UsersAPIComponent extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     users: getUsers(state),
     pageSize: getPageSize(state),
@@ -55,7 +73,7 @@ const mapStateToProps = (state: any) => {
 };
 
 export const UsersContainer = compose(
-  connect(mapStateToProps, {
+  connect<MapStatePropsType, MapDispatchPropsType, null, AppStateType>(mapStateToProps, {
     follow: followThunkCreator,
     unfollow: unfollowThunkCreator,
     getUsers: getUsersThunkCreator,
