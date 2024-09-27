@@ -1,6 +1,21 @@
-const SEND_MESSAGE = 'SEND_MESSAGE';
+type DialogItemType = {
+  id: string;
+  name: string;
+}
 
-const initialState = {
+type MessageItemType = {
+  id: string;
+  text: string;
+}
+
+type DialogsStateType = {
+  dialogs: DialogItemType[];
+  messages: MessageItemType[];
+}
+
+const SEND_MESSAGE = 'SN/DIALOGS/SEND_MESSAGE';
+
+const initialState: DialogsStateType = {
   dialogs: [
     {id: "1", name: "Ivan"},
     {id: "2", name: "Petya"},
@@ -13,12 +28,12 @@ const initialState = {
   ],
 };
 
-export const dialogsReducer = (state: any = initialState, action: any) => {
+export const dialogsReducer = (state = initialState, action: SendMessageActionType): DialogsStateType => {
   switch (action.type) {
     case SEND_MESSAGE:
       const newMessage = {
         id: String(state.messages.length + 2),
-        text: action.newMessageBody
+        text: action.payload.newMessageBody
       }
       return {
         ...state,
@@ -29,4 +44,12 @@ export const dialogsReducer = (state: any = initialState, action: any) => {
   }
 };
 
-export const sendMessageCreator = (newMessageBody: string) => ({type: SEND_MESSAGE, newMessageBody});
+type SendMessageActionType = {
+  type: typeof SEND_MESSAGE,
+  payload: { newMessageBody: string }
+}
+
+export const sendMessageCreator = (newMessageBody: string): SendMessageActionType => ({
+  type: SEND_MESSAGE,
+  payload: {newMessageBody}
+});
