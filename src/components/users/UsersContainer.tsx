@@ -73,7 +73,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 };
 
 export const UsersContainer = compose(
-  connect<MapStatePropsType, MapDispatchPropsType, null, AppStateType>(mapStateToProps, {
+  connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
     follow: followThunkCreator,
     unfollow: unfollowThunkCreator,
     getUsers: getUsersThunkCreator,
