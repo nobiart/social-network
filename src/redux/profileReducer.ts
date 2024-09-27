@@ -33,7 +33,7 @@ type ProfileType = {
   photos: ProfilePhotosType;
 }
 
-type ProfileStateType = {
+export type ProfileStateType = {
   posts: PostItemType[] | null;
   profile: ProfileType | null;
   status: string | null;
