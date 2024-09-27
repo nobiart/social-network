@@ -1,5 +1,5 @@
 import {expect, test} from "vitest";
-import {addPostActionCreator, deletePostActionCreator, profileReducer} from "./profileReducer.ts";
+import {addPostActionCreator, deletePostActionCreator, profileReducer} from "../redux/profileReducer.ts";
 
 const state = {
   posts: [
@@ -16,7 +16,7 @@ test("Profile Reducer adds post", () => {
   const action = addPostActionCreator("My New Post");
   const newState = (profileReducer(state, action));
 
-  expect(newState.posts.length).toBe(7);
+  expect(newState.posts?.length).toBe(7);
 });
 
 test("Profile Reducer post message", () => {

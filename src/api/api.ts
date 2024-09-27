@@ -39,7 +39,7 @@ export const profileAPI = {
     return response.data;
   },
 
-  async updateStatus(status: any) {
+  async updateStatus(status: string | null) {
     const response = await api.put("profile/status", {status});
     return response.data;
   },
