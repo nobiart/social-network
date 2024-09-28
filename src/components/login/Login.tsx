@@ -1,12 +1,12 @@
 import {Field, FieldProps, Form, Formik} from "formik";
 import {validateEmail, validatePassword} from "../../utils/validators.ts";
 import {connect} from "react-redux";
-import {AuthLoginActionType, loginThunkCreator} from "../../redux/authReducer.ts";
+import {AuthLoginRequestType, loginThunkCreator} from "../../redux/authReducer.ts";
 import {Navigate} from "react-router-dom";
 import {AppStateType} from "../../redux/reduxStore.ts";
 import s from "../common/form/FormControl.module.css";
 
-type SubmitLoginType = (data: AuthLoginActionType) => void;
+type SubmitLoginType = (data: AuthLoginRequestType) => void;
 
 type LoginFormPropsTypes = {
   handleSubmit: SubmitLoginType;
@@ -30,7 +30,7 @@ type MapDispatchPropsType = {
 }
 
 const LoginForm = ({handleSubmit, captchaUrl}: LoginFormPropsTypes) => {
-  const initialValues: AuthLoginActionType = {email: "", password: "", rememberMe: false, captcha: null};
+  const initialValues: AuthLoginRequestType = {email: "", password: "", rememberMe: false, captcha: null};
 
   return (
     <Formik

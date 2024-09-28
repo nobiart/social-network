@@ -1,18 +1,16 @@
 import {getAuthThunkCreator} from "./authReducer.ts";
+import {BaseThunkType, InferActionsTypes} from "./reduxStore.ts";
 
-type AppStateType = {
-  initialized: boolean;
-}
-
-const INITIALIZED_SUCCESS = 'SN/APP/INITIALIZED_SUCCESS';
-
-const initialState: AppStateType = {
+const initialState = {
   initialized: false,
 };
 
+type AppStateType = typeof initialState;
+type AppActionType = InferActionsTypes<typeof appActions>;
+
 export const appReducer = (state = initialState, action: AppActionType): AppStateType => {
   switch (action.type) {
-    case INITIALIZED_SUCCESS:
+    case 'SN/APP/INITIALIZED_SUCCESS':
       return {
         ...state,
         initialized: true,
@@ -22,17 +20,15 @@ export const appReducer = (state = initialState, action: AppActionType): AppStat
   }
 };
 
-type AppActionType = {
-  type: typeof INITIALIZED_SUCCESS;
+const appActions = {
+  initializedSuccess: () => ({type: 'SN/APP/INITIALIZED_SUCCESS'} as const),
 }
 
-export const initializedSuccess = (): AppActionType => ({type: INITIALIZED_SUCCESS});
-
-export const initializeApp = () => {
-  return (dispatch: any) => {
+export const initializeApp = (): BaseThunkType<AppActionType, void> => (
+  (dispatch) => {
     const promise = dispatch(getAuthThunkCreator());
     promise.then(() => {
-      dispatch(initializedSuccess());
+      dispatch(appActions.initializedSuccess());
     });
   }
-};
+);

@@ -1,10 +1,5 @@
 import {expect, test} from "vitest";
-import {
-  addPostActionCreator,
-  deletePostActionCreator,
-  profileReducer,
-  ProfileStateType
-} from "../redux/profileReducer.ts";
+import {profileActions, profileReducer, ProfileStateType} from "../redux/profileReducer.ts";
 
 const state: ProfileStateType = {
   posts: [
@@ -21,27 +16,27 @@ const state: ProfileStateType = {
 };
 
 test("Profile Reducer adds post", () => {
-  const action = addPostActionCreator("My New Post");
+  const action = profileActions.addPostActionCreator("My New Post");
   const newState = (profileReducer(state, action));
 
   expect(newState.posts?.length).toBe(7);
 });
 
 test("Profile Reducer post message", () => {
-  const action = addPostActionCreator("My New Post");
+  const action = profileActions.addPostActionCreator("My New Post");
   const newState = (profileReducer(state, action));
   expect(newState.posts![6].message).toBe("My New Post");
 });
 
 test("Profile Reducer deletes post", () => {
-  const action = deletePostActionCreator(1);
+  const action = profileActions.deletePostActionCreator(1);
   const newState = (profileReducer(state, action));
 
   expect(newState.posts?.length).toBe(5);
 });
 
 test("Profile Reducer doesn't delete post with wrong ID", () => {
-  const action = deletePostActionCreator(9999);
+  const action = profileActions.deletePostActionCreator(9999);
   const newState = (profileReducer(state, action));
 
   expect(newState.posts?.length).toBe(6);

@@ -1,5 +1,5 @@
 import {Posts} from "./Posts.tsx";
-import {addPostActionCreator} from "../../../redux/profileReducer.ts";
+import {profileActions} from "../../../redux/profileReducer.ts";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../../hoc/WithAuthRedirect.tsx";
@@ -13,7 +13,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     addPost: (text: string) => {
-      dispatch(addPostActionCreator(text))
+      dispatch(profileActions.addPostActionCreator(text))
     }
   }
 };
