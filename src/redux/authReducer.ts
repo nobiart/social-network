@@ -1,4 +1,4 @@
-import {authAPI, securityAPI} from "../api/api.ts";
+import {authAPI, ResultCodesEnum, securityAPI} from "../api/api.ts";
 
 type AuthStateType = {
   id: number | null;
@@ -71,16 +71,15 @@ export const setCaptchaUrl = (url: string | null): SetCaptchaUrlActionType => ({
   payload: {captchaUrl: url},
 });
 
-export const getAuthThunkCreator = () => {
-  return async (dispatch: any) => {
+export const getAuthThunkCreator = () =>
+  async (dispatch: any) => {
     const data = await authAPI.me();
-    debugger
-    if (data.resultCode === 0) {
+
+    if (data.resultCode === ResultCodesEnum.SUCCESS) {
       const {id, email, login} = data.data;
       dispatch(setAuthUserData({id, email, login, isAuth: true}));
     }
   };
-};
 
 export type AuthLoginActionType = {
   email: string,
@@ -90,18 +89,19 @@ export type AuthLoginActionType = {
   setStatus: (status?: any) => void
 }
 
-export const loginThunkCreator = ({
-                                    email,
-                                    password,
-                                    rememberMe,
-                                    captcha,
-                                    setStatus
-                                  }: AuthLoginActionType) => async (dispatch: any) => {
-  const data = await authAPI.login(email, password, rememberMe, captcha);
-  if (data.resultCode === 0) {
+export const loginThunkCreator = (
+  {
+    email,
+    password,
+    rememberMe,
+    captcha,
+    setStatus
+  }: AuthLoginActionType) => async (dispatch: any) => {
+  const data = await authAPI.login({email, password, rememberMe, captchaUrl: captcha});
+  if (data.resultCode === ResultCodesEnum.SUCCESS) {
     dispatch(getAuthThunkCreator());
   } else {
-    if (data.resultCode === 10) {
+    if (data.resultCode === ResultCodesEnum.CAPTCHA) {
       dispatch(getCaptchaUrlThunkCreator());
     }
 

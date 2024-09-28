@@ -1,5 +1,11 @@
 import axios from "axios";
 
+export enum ResultCodesEnum {
+  SUCCESS = 0,
+  ERROR = 1,
+  CAPTCHA = 10,
+}
+
 const BASE_URL = "https://social-network.samuraijs.com/api/1.0/";
 const API_KEY = "126291b7-3703-4579-85ac-e0ef08fa09ac";
 
@@ -17,12 +23,12 @@ export const usersAPI = {
     return response.data;
   },
 
-  async follow(userId: string) {
+  async follow(userId: number) {
     const response = await api.post(`follow/${userId}`);
     return response.data;
   },
 
-  async unfollow(userId: string) {
+  async unfollow(userId: number) {
     const response = await api.delete(`follow/${userId}`);
     return response.data;
   }
@@ -59,14 +65,44 @@ export const profileAPI = {
   }
 };
 
+type MeResponseType = {
+  data: {
+    id: number,
+    email: string,
+    login: string,
+  },
+  resultCode: ResultCodesEnum,
+  messages: string[],
+}
+
+type LoginRequestType = {
+  email: string,
+  password: string,
+  rememberMe: boolean,
+  captchaUrl: string | null,
+}
+
+type LoginResponseType = {
+  data: {
+    userId: number,
+  }
+  resultCode: ResultCodesEnum,
+  messages: string[],
+}
+
 export const authAPI = {
   async me() {
-    const response = await api.get("auth/me");
+    const response = await api.get<MeResponseType>("auth/me");
     return response.data;
   },
 
-  async login(email: string, password: string, rememberMe: boolean = false, captchaUrl: string | null) {
-    const response = await api.post("auth/login", {email, password, rememberMe, captcha: captchaUrl});
+  async login({email, password, rememberMe = false, captchaUrl}: LoginRequestType) {
+    const response = await api.post<LoginResponseType>("auth/login", {
+      email,
+      password,
+      rememberMe,
+      captcha: captchaUrl
+    });
     return response.data;
   },
 
