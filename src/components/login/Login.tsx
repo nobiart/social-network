@@ -1,71 +1,95 @@
-import {Form, Formik} from "formik";
+import {Field, FieldProps, Form, Formik} from "formik";
 import {validateEmail, validatePassword} from "../../utils/validators.ts";
-import {Input} from "../common/form/FormControl.tsx";
 import {connect} from "react-redux";
 import {AuthLoginActionType, loginThunkCreator} from "../../redux/authReducer.ts";
 import {Navigate} from "react-router-dom";
+import {AppStateType} from "../../redux/reduxStore.ts";
+import s from "../common/form/FormControl.module.css";
 
-interface ILoginFormProps {
+type SubmitLoginType = (data: AuthLoginActionType) => void;
+
+type LoginFormPropsTypes = {
   handleSubmit: SubmitLoginType;
   captchaUrl: string | null;
 }
 
-type SubmitLoginType = ({email, password, rememberMe, captcha, setStatus}: AuthLoginActionType) => void;
+// type LoginFormValuesType = {
+//   email: string,
+//   password: string,
+//   rememberMe: boolean,
+//   captcha: string | null,
+// }
 
-const LoginForm = ({handleSubmit, captchaUrl}: ILoginFormProps) => {
+type MapStatePropsType = {
+  isAuth: boolean,
+  captchaUrl: string | null,
+}
+
+type MapDispatchPropsType = {
+  loginThunkCreator: SubmitLoginType;
+}
+
+const LoginForm = ({handleSubmit, captchaUrl}: LoginFormPropsTypes) => {
+  const initialValues: AuthLoginActionType = {email: "", password: "", rememberMe: false, captcha: null};
+
   return (
     <Formik
-      initialValues={{email: "", password: "", rememberMe: false, captcha: null}}
+      initialValues={initialValues}
       onSubmit={(values, {setSubmitting, setStatus}) => {
-        console.log(values);
         handleSubmit({
-          email: values.email,
-          password: values.password,
-          rememberMe: values.rememberMe,
-          captcha: values.captcha,
+          ...values,
           setStatus,
         });
         setSubmitting(false);
       }}
     >
-      {({values, isSubmitting, handleSubmit, handleChange, status}) => (
-        <Form onSubmit={handleSubmit}>
+      {({isSubmitting, status}) => (
+        <Form>
           <div>{status?.error}</div>
-          <Input
-            label="Email"
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={values.email}
-            onChange={handleChange}
-            validate={validateEmail}
-          />
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={values.password}
-            onChange={handleChange}
-            validate={validatePassword}
-          />
-          <Input
-            label="Remember me"
-            type="checkbox"
-            name="rememberMe"
-            checked={values.rememberMe}
-            onChange={handleChange}
-          />
+          <Field name="email" validate={validateEmail}>
+            {({field, meta}: FieldProps) => (
+              <div className={s.formControl}>
+                <label htmlFor={field.name}>Email</label>
+                <input type="email" placeholder="Email" {...field} />
+                {meta.touched && meta.error && (
+                  <div className={s.error}>{meta.error}</div>
+                )}
+              </div>
+            )}
+          </Field>
+          <Field name="password" validate={validatePassword}>
+            {({field, meta}: FieldProps) => (
+              <div className={s.formControl}>
+                <label htmlFor={field.name}>Password</label>
+                <input type="password" placeholder="Password" {...field} />
+                {meta.touched && meta.error && (
+                  <div className={s.error}>{meta.error}</div>
+                )}
+              </div>
+            )}
+          </Field>
+          <Field name="rememberMe">
+            {({field}: FieldProps) => (
+              <div className={s.formControl}>
+                <label htmlFor={field.name}>Remember</label>
+                <input type="checkbox" {...field} />
+              </div>
+            )}
+          </Field>
           {captchaUrl && (
             <>
               <div><img src={captchaUrl} alt="Captcha"/></div>
-              <Input
-                label="Enter captcha"
-                type="text"
-                name="captcha"
-                value={values.captcha}
-                onChange={handleChange}
-              />
+              <Field name="captcha">
+                {({field, meta}: FieldProps) => (
+                  <div className={s.formControl}>
+                    <label htmlFor={field.name}>Captcha</label>
+                    <input type="text" placeholder="Captcha" {...field} />
+                    {meta.touched && meta.error && (
+                      <div className={s.error}>{meta.error}</div>
+                    )}
+                  </div>
+                )}
+              </Field>
             </>
           )}
           <div>
@@ -77,13 +101,9 @@ const LoginForm = ({handleSubmit, captchaUrl}: ILoginFormProps) => {
   )
 };
 
-interface ILoginProps {
-  isAuth: boolean;
-  captchaUrl: string | null;
-  loginThunkCreator: SubmitLoginType;
-}
+type LoginPropsType = MapStatePropsType & MapDispatchPropsType;
 
-const Login = ({isAuth, captchaUrl, loginThunkCreator}: ILoginProps) => {
+const Login = ({isAuth, captchaUrl, loginThunkCreator}: LoginPropsType) => {
   if (isAuth) {
     return <Navigate to="/profile"/>
   }
@@ -96,9 +116,10 @@ const Login = ({isAuth, captchaUrl, loginThunkCreator}: ILoginProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
   isAuth: state.auth.isAuth,
   captchaUrl: state.auth.captchaUrl,
 })
 
-export const LoginContainer = connect(mapStateToProps, {loginThunkCreator})(Login);
+export const LoginContainer =
+  connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {loginThunkCreator})(Login);

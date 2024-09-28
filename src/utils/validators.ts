@@ -1,4 +1,4 @@
-export const validateEmail = (value: any) => {
+export const validateEmail = (value: string) => {
   let error;
 
   if (!value) {
@@ -10,7 +10,7 @@ export const validateEmail = (value: any) => {
   return error;
 };
 
-export const validatePassword = (value: any) => {
+export const validatePassword = (value: string) => {
   let error;
 
   if (!value) {
@@ -32,7 +32,7 @@ export const validateRequired = (value: any) => {
   return error;
 };
 
-export const maxLengthCreator = (maxLength: number) => (value: any) => {
+export const maxLengthCreator = (maxLength: number) => (value: string) => {
   if (value.length > maxLength) {
     return "Maximum length is " + maxLength + " characters.";
   }

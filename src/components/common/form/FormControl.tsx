@@ -1,9 +1,16 @@
 import s from "./FormControl.module.css";
-import {Field, useField} from "formik";
+import {Field, FieldHookConfig, useField} from "formik";
 
-// @ts-ignore
-export const TextArea = ({label, ...props}) => {
-  // @ts-ignore
+type FormControlType = FieldHookConfig<{} & string> & {
+  label?: string,
+  type: string,
+  placeholder?: string,
+  validate?: (v: string) => void,
+}
+
+// @TODO Clarify types later in lesson 13
+
+export const TextArea = ({...props}: FormControlType) => {
   const [field, meta] = useField(props);
   const hasErrors = meta.touched && meta.error;
 
@@ -11,12 +18,10 @@ export const TextArea = ({label, ...props}) => {
     <Field validate={props.validate}>
       {({...props}) => (
         <div className={s.formControl + " " + (hasErrors ? s.error : "")}>
-          <div>
-            <label htmlFor={props.id || props.name}>{label}</label>
-            <textarea {...field} {...props} />
-          </div>
+          {props.label && <label htmlFor={props.id || props.name}>{props.label}</label>}
+          <textarea {...field} {...props} />
           {hasErrors ? (
-            <span className={s.error}>{meta.error}</span>
+            <div className={s.error}>{meta.error}</div>
           ) : null}
         </div>
       )}
@@ -24,9 +29,7 @@ export const TextArea = ({label, ...props}) => {
   )
 };
 
-// @ts-ignore
-export const Input = ({label, type, ...props}) => {
-  // @ts-ignore
+export const Input = ({...props}: FormControlType) => {
   const [field, meta] = useField(props);
   const hasErrors = meta.touched && meta.error;
 
@@ -34,17 +37,15 @@ export const Input = ({label, type, ...props}) => {
     <Field validate={props.validate}>
       {({...props}) => (
         <div className={s.formControl + " " + (hasErrors ? s.error : "")}>
-          <div>
-            {props.type !== "checkbox" && (
-              <label htmlFor={props.id || props.name}>{label}</label>
-            )}
-            <input type={type} {...field} {...props} />
-            {props.type === "checkbox" && (
-              <label htmlFor={props.id || props.name}>{label}</label>
-            )}
-          </div>
+          {(props.label && props.type !== "checkbox") && (
+            <label htmlFor={props.id || props.name}>{props.label}</label>
+          )}
+          <input type={props.type} {...field} {...props} />
+          {(props.label && props.type === "checkbox") && (
+            <label htmlFor={props.id || props.name}>{props.label}</label>
+          )}
           {hasErrors ? (
-            <span className={s.error}>{meta.error}</span>
+            <div className={s.error}>{meta.error}</div>
           ) : null}
         </div>
       )}

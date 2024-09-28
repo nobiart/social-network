@@ -86,7 +86,7 @@ export type AuthLoginActionType = {
   password: string,
   rememberMe: boolean,
   captcha: string | null,
-  setStatus: (status?: any) => void
+  setStatus?: (status?: any) => void
 }
 
 export const loginThunkCreator = (
@@ -106,7 +106,7 @@ export const loginThunkCreator = (
     }
 
     const message = data.messages.length > 0 ? data.messages[0] : "Something went wrong";
-    setStatus({error: message});
+    setStatus && setStatus({error: message});
   }
 };
 
