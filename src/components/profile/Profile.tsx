@@ -1,5 +1,6 @@
 import {ProfileInfo} from "./info/ProfileInfo.tsx";
 import {PostsContainer} from "./posts/PostsContainer.tsx";
+import {ProfileType} from "../../redux/profileReducer.ts";
 
 interface IProfileProps {
   isOwner: boolean,
@@ -7,7 +8,7 @@ interface IProfileProps {
   status: string,
   updateStatus: (status: string) => void,
   savePhoto: (file?: File) => void;
-  saveProfile: (formData: any, setStatus: (status?: any) => void) => Promise<void>;
+  saveProfile: (profile: ProfileType, setStatus: (status?: any) => void) => void;
 }
 
 export const Profile = ({isOwner, profile, status, updateStatus, savePhoto, saveProfile}: IProfileProps) => {

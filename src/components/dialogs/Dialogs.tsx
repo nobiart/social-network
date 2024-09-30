@@ -2,45 +2,47 @@ import s from './Dialogs.module.css';
 import {DialogItem} from "./dialogItem/DialogItem.tsx";
 import {Message} from "./message/Message.tsx";
 import {Field, Form, Formik} from "formik";
+import {DialogsMapDispatchType, DialogsMapStateType} from "./DialogsContainer.tsx";
 
-const AddMessageForm = (props: any) => {
+const AddMessageForm = ({sendMessage}: DialogsMapDispatchType) => {
   return (
     <Formik
       initialValues={{messageText: ""}}
       onSubmit={(values, {setSubmitting}) => {
-        console.log(values);
-        props.onSubmit(values.messageText);
+        sendMessage(values.messageText);
         setSubmitting(false);
         values.messageText = "";
       }}
     >
-      {({values, handleSubmit, handleChange}) => (
+      {({values, handleSubmit, handleChange, isSubmitting}) => (
         <Form onSubmit={handleSubmit}>
+          <Field
+            type="textarea"
+            name="messageText"
+            value={values.messageText}
+            onChange={handleChange}
+            placeholder="Enter your message"
+          />
           <div>
-            <Field
-              type="textarea"
-              name="messageText"
-              value={values.messageText}
-              onChange={handleChange}
-              placeholder="Enter your message"
-            />
+            <button type="submit" disabled={isSubmitting}>Send</button>
           </div>
-          <button type="submit">Send</button>
         </Form>
       )}
     </Formik>
   )
 };
 
-export const Dialogs = (props: any) => {
+export type DialogsPropsType = DialogsMapStateType & DialogsMapDispatchType;
+
+export const Dialogs = ({dialogs, messages, sendMessage}: DialogsPropsType) => {
   return (
     <div className={s.dialogsContainer}>
       <div className={s.dialogs}>
-        {props.dialogs.map((d: any) => <DialogItem key={d.name} id={d.id} name={d.name}/>)}
+        {dialogs.map((d) => <DialogItem key={d.id} id={d.id} name={d.name}/>)}
       </div>
       <div className={s.messages}>
-        {props.messages.map((m: any) => <Message key={m.id} id={m.id} text={m.text}/>)}
-        <AddMessageForm onSubmit={props.sendMessage}/>
+        {messages.map((m) => <Message key={m.id} id={m.id} text={m.text}/>)}
+        <AddMessageForm sendMessage={sendMessage}/>
       </div>
     </div>
   )

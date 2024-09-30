@@ -2,7 +2,7 @@ import {Posts} from "./Posts.tsx";
 import {profileActions} from "../../../redux/profileReducer.ts";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import {withAuthRedirect} from "../../../hoc/WithAuthRedirect.tsx";
+import {ComponentType} from "react";
 
 const mapStateToProps = (state: any) => {
   return {
@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 };
 
-export const PostsContainer = compose(
+export const PostsContainer = compose<ComponentType<{}>>(
   connect(mapStateToProps, mapDispatchToProps),
-  withAuthRedirect
+  // withAuthRedirect
 )(Posts);

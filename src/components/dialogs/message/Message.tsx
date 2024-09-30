@@ -1,7 +1,7 @@
 import s from "./Message.module.css";
 
 export interface IMessage {
-  id: string;
+  id: number;
   text: string;
 }
 

@@ -78,5 +78,4 @@ export const UsersContainer = compose(
     unfollow: unfollowThunkCreator,
     getUsers: getUsersThunkCreator,
   }),
-  // withAuthRedirect
 )(UsersAPIComponent);

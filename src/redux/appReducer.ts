@@ -5,10 +5,10 @@ const initialState = {
   initialized: false,
 };
 
-type AppStateType = typeof initialState;
+export type MainAppStateType = typeof initialState;
 type AppActionType = InferActionsTypes<typeof appActions>;
 
-export const appReducer = (state = initialState, action: AppActionType): AppStateType => {
+export const appReducer = (state = initialState, action: AppActionType): MainAppStateType => {
   switch (action.type) {
     case 'SN/APP/INITIALIZED_SUCCESS':
       return {

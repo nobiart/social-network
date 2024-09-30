@@ -2,7 +2,7 @@ import s from "./DialogItem.module.css";
 import {NavLink} from "react-router-dom";
 
 export interface IDialogItemProps {
-  id: string
+  id: number
   name: string;
 }
 

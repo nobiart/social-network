@@ -1,83 +1,88 @@
-import React from "react";
+import {ComponentType, useEffect} from "react";
 import {connect} from "react-redux";
 import {
   getProfileThunkCreator,
   getStatusThunkCreator,
+  ProfileType,
   saveProfilePhotoThunkCreator,
   saveProfileThunkCreator,
   updateStatusThunkCreator
 } from "../../redux/profileReducer.ts";
 import {Profile} from "./Profile.tsx";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {withAuthRedirect} from "../../hoc/WithAuthRedirect.tsx";
 import {compose} from "redux";
+import {AppStateType} from "../../redux/reduxStore.ts";
+import {HistoryRouterProps, NavigateFunction} from "react-router-dom";
+import {withRouter} from "../../hoc/withRouter.tsx";
 
-class ProfileClass extends React.Component<any, any> {
-  refreshProfile() {
-    const userId = this.props.router.params.userId ?? this.props.userId;
-    if (!userId) {
-      this.props.history.push("/login");
-    }
-    this.props.getProfileThunkCreator(userId);
-    this.props.getStatusThunkCreator(userId);
-  }
+// type MapStatePropsType = {
+//   profile: ProfileType | null;
+//   status: string;
+//   userId: number | null;
+// }
 
-  componentDidMount() {
-    this.refreshProfile();
-  }
+type MapPropsType = ReturnType<typeof mapStateToProps>;
 
-  componentDidUpdate(prevProps: any) {
-    if (prevProps.userId !== this.props.userId) {
-      this.refreshProfile();
-    }
-  }
-
-  render() {
-    return (
-      <Profile
-        isOwner={!this.props.router.params.userId}
-        profile={this.props.profile}
-        status={this.props.status}
-        updateStatus={this.props.updateStatus}
-        savePhoto={this.props.savePhoto}
-        saveProfile={this.props.saveProfile}
-      />
-    )
-  }
+type MapDispatchPropsType = {
+  getProfile: (userId: number) => void;
+  getStatus: (userId: number) => void;
+  updateStatus: (text: string) => void;
+  savePhoto: (photo?: File) => void;
+  saveProfile: (profile: ProfileType, setStatus: (status?: { error: string }) => void) => void;
 }
 
-const mapStateToProps = (state: any) => {
+type withRouterPropsType = {
+  router: {
+    location: Location;
+    navigate: NavigateFunction;
+    params: Record<"userId", string | undefined>;
+  };
+  history: HistoryRouterProps["history"];
+}
+
+type ProfileClassPropsType = MapPropsType & MapDispatchPropsType & withRouterPropsType;
+
+const ProfileWrapper = (props: ProfileClassPropsType) => {
+  const refreshProfile = (userId: number | null, routedUserId?: string) => {
+    const combinedUserId: number | null = Number(routedUserId ?? userId);
+    if (!combinedUserId) {
+      props.history.push("/login");
+    }
+    props.getProfile(combinedUserId);
+    props.getStatus(combinedUserId);
+  }
+
+  useEffect(() => {
+    refreshProfile(props.userId, props.router.params.userId);
+  }, [props.router.params.userId, props.userId]);
+
+  return (
+    <Profile
+      isOwner={!props.router.params.userId}
+      profile={props.profile}
+      status={props.status}
+      updateStatus={props.updateStatus}
+      savePhoto={props.savePhoto}
+      saveProfile={props.saveProfile}
+    />
+  )
+}
+
+const mapStateToProps = (state: AppStateType) => {
   return {
     profile: state.profilePage.profile,
     status: state.profilePage.status,
     userId: state.auth.id,
   }
-}
+};
 
-function withRouter(ProfileClass: any) {
-  function ComponentWithRouterProp(props: any) {
-    let location = useLocation();
-    let navigate = useNavigate();
-    let params = useParams();
-    return (
-      <ProfileClass
-        {...props}
-        router={{location, navigate, params}}
-      />
-    );
-  }
-
-  return ComponentWithRouterProp;
-}
-
-export const ProfileContainer = compose<any>(
-  connect(mapStateToProps, {
-    getProfileThunkCreator,
-    getStatusThunkCreator,
+export const ProfileContainer = compose<ComponentType<{}>>(
+  connect<MapPropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, {
+    getProfile: getProfileThunkCreator,
+    getStatus: getStatusThunkCreator,
     updateStatus: updateStatusThunkCreator,
     savePhoto: saveProfilePhotoThunkCreator,
     saveProfile: saveProfileThunkCreator,
   }),
   withRouter,
-  withAuthRedirect,
-)(ProfileClass);
+  // withAuthRedirect,
+)(ProfileWrapper);

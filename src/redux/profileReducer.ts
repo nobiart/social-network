@@ -8,7 +8,7 @@ import {BaseThunkType, InferActionsTypes} from "./reduxStore.ts";
 //   likes: number;
 // }
 
-type ProfileContactsType = {
+export type ProfileContactsType = {
   github: string | null;
   vk: string | null;
   facebook: string | null;
@@ -117,7 +117,7 @@ export const updateStatusThunkCreator = (text: string): ThunkType => async (disp
   }
 };
 
-export const saveProfilePhotoThunkCreator = (photo: File): ThunkType => async (dispatch) => {
+export const saveProfilePhotoThunkCreator = (photo?: File): ThunkType => async (dispatch) => {
   const data = await profileAPI.updatePhoto(photo);
 
   if (data.resultCode === 0) {

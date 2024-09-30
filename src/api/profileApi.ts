@@ -25,7 +25,7 @@ export const profileAPI = {
     return response.data;
   },
 
-  async updatePhoto(photo: File) {
+  async updatePhoto(photo?: File) {
     const response = await API.put<ApiResponseType<PhotosResponseType>>("profile/photo", {photo}, {
       headers: {"Content-Type": "multipart/form-data"}
     });

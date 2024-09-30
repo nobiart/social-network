@@ -1,6 +1,6 @@
 import './App.css';
 import {NavBar} from "./components/navbar/NavBar.tsx";
-import {BrowserRouter, Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {News} from "./components/news/News.tsx";
 import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
@@ -12,8 +12,10 @@ import React from "react";
 import {compose} from "redux";
 import {initializeApp} from "./redux/appReducer.ts";
 import {Preloader} from "./components/common/preloader/Preloader.tsx";
-import {store} from "./redux/reduxStore.ts";
+import {AppStateType, store} from "./redux/reduxStore.ts";
 import {withSuspense} from "./hoc/withSuspense.tsx";
+import {withRouter} from "./hoc/withRouter.tsx";
+
 
 const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsContainer")
   .then(module => ({
@@ -28,19 +30,24 @@ const ProfileContainer = React.lazy(() => import("./components/profile/ProfileCo
   }))
 );
 
-class AppClass extends React.Component<any, any> {
-  // catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
-  //   alert("Some error");
-  //   console.log(promiseRejectionEvent);
-  // }
+type MapPropsType = ReturnType<typeof mapStateToProps>;
+type DispatchPropsType = {
+  initializeApp: () => void
+};
+
+class AppClass extends React.Component<MapPropsType & DispatchPropsType> {
+  catchAllUnhandledErrors = (promiseRejectionEvent: PromiseRejectionEvent) => {
+    alert("Some error");
+    console.log(promiseRejectionEvent);
+  }
 
   componentDidMount() {
     this.props.initializeApp();
-    // window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+    window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
   }
 
   componentWillUnmount() {
-    // window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+    window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
   }
 
   render() {
@@ -68,27 +75,11 @@ class AppClass extends React.Component<any, any> {
   }
 }
 
-function withRouter(AppClass: any) {
-  function ComponentWithRouterProp(props: any) {
-    let location = useLocation();
-    let navigate = useNavigate();
-    let params = useParams();
-    return (
-      <AppClass
-        {...props}
-        router={{location, navigate, params}}
-      />
-    );
-  }
-
-  return ComponentWithRouterProp;
-}
-
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
 })
 
-const AppContainer = compose<any>(
+const AppContainer = compose<React.ComponentType>(
   connect(mapStateToProps, {initializeApp}),
   withRouter,
 )(AppClass);

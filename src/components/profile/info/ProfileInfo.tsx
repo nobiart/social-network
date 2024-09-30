@@ -4,28 +4,30 @@ import {Preloader} from "../../common/preloader/Preloader.tsx";
 import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks.tsx";
 import {ChangeEvent, useState} from "react";
 import {ProfileDataForm} from "./ProfileDataForm.tsx";
+import {ProfileType} from "../../../redux/profileReducer.ts";
 
-interface IProfileInfoProps {
+type ProfileInfoPropsType = {
   isOwner: boolean,
-  profile: any,
+  profile: ProfileType,
   status: string,
   updateStatus: (status: string) => void,
   savePhoto: (file?: File) => void;
-  saveProfile: (formData: any, setStatus: (status?: any) => void) => Promise<void>;
+  saveProfile: (profile: ProfileType, setStatus: (status?: any) => void) => void;
 }
 
-export const ProfileInfo = ({isOwner, profile, status, updateStatus, savePhoto, saveProfile}: IProfileInfoProps) => {
+export const ProfileInfo = ({isOwner, profile, status, updateStatus, savePhoto, saveProfile}: ProfileInfoPropsType) => {
   const [editMode, setEditMode] = useState(false);
 
   // @TODO change async function, move edited prop to BLL
-  const onSubmit = async (formData: any, setStatus: (status?: any) => void): Promise<void> => {
-    await saveProfile(formData, setStatus);
+  const onSubmit = async (profile: ProfileType, setStatus: (status?: any) => void): Promise<void> => {
+    await saveProfile(profile, setStatus);
     return setEditMode(false);
   }
 
-  const onAvaSelected = (e: ChangeEvent) => {
-    if ((e.target as HTMLInputElement).files && (e.target as HTMLInputElement).files?.length) {
-      savePhoto((e.target as HTMLInputElement).files?.[0]);
+  const onAvaSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      const photo = e.target.files[0];
+      savePhoto(photo);
     }
   }
 
@@ -46,23 +48,21 @@ export const ProfileInfo = ({isOwner, profile, status, updateStatus, savePhoto, 
   )
 };
 
-interface IProfileDataProps {
-  profile: any,
+type ProfileDataPropsType = {
+  profile: ProfileType,
   isOwner: boolean,
-  goToEditMode: any,
+  goToEditMode: () => void,
 }
 
-const ProfileData = ({profile, isOwner, goToEditMode}: IProfileDataProps) => {
+const ProfileData = ({profile, isOwner, goToEditMode}: ProfileDataPropsType) => {
   return (
     <>
-      {isOwner && <div>
-        <button onClick={goToEditMode}>Edit</button>
-      </div>}
+      {isOwner && (
+        <div>
+          <button onClick={goToEditMode}>Edit</button>
+        </div>
+      )}
       <div><b>{profile.fullName}</b> ({profile.userId})</div>
-      <div className={s.row}>
-        <span><b>About Me:</b></span>
-        <span>{profile.aboutMe ?? ""}</span>
-      </div>
       <div className={s.row}>
         <span><b>Is Looking For A Job:</b></span>
         <span>{profile.lookingForAJob ? "Yes" : "No"}</span>
@@ -75,18 +75,18 @@ const ProfileData = ({profile, isOwner, goToEditMode}: IProfileDataProps) => {
       )}
       <div>Contacts:</div>
       {(Object.keys(profile?.contacts ?? {})).map((key) => {
-        return <Contact key={key} title={key} value={profile.contacts[key]}/>
+        return <Contact key={key} title={key} value={key}/>
       })}
     </>
   )
 };
 
-interface IContactProps {
+type ContactPropType = {
   title: string,
   value: string,
 }
 
-const Contact = ({title, value}: IContactProps) => {
+const Contact = ({title, value}: ContactPropType) => {
   return (
     <div className={s.row}>
       <span><b>{title}:</b></span>
