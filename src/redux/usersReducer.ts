@@ -3,6 +3,7 @@ import {ProfilePhotosType} from "./types.ts";
 import {Dispatch} from "redux";
 import {BaseThunkType, InferActionsTypes} from "./reduxStore.ts";
 import {usersAPI} from "../api/usersApi.ts";
+import {ApiResponseType} from "../api/api.ts";
 
 export type UserType = {
   id: number;
@@ -31,7 +32,7 @@ const initialState = {
   isFollowingInProgress: [] as number[], // array of users IDs
 }
 
-type UsersStateType = typeof initialState;
+export type UsersStateType = typeof initialState;
 type UsersActionsTypes = InferActionsTypes<typeof usersActions>;
 type ThunkType = BaseThunkType<UsersActionsTypes>;
 
@@ -79,7 +80,7 @@ export const usersReducer = (state = initialState, action: UsersActionsTypes): U
   }
 };
 
-const usersActions = {
+export const usersActions = {
   follow: (userId: number) => ({type: "FOLLOW", userId} as const),
   unfollow: (userId: number) => ({type: "UNFOLLOW", userId} as const),
   setUsers: (users: UserType[]) => ({type: "SET_USERS", users} as const),
@@ -106,7 +107,7 @@ export const getUsersThunkCreator = (page: number, pageSize: number): ThunkType 
 const _followUnfollowFlow = async (
   dispatch: Dispatch<UsersActionsTypes>,
   userId: number,
-  apiMethod: any,
+  apiMethod: (userId: number) => Promise<ApiResponseType>,
   actionCreator: (userId: number) => UsersActionsTypes
 ) => {
   dispatch(usersActions.toggleFollowing(userId, true));
@@ -120,11 +121,11 @@ const _followUnfollowFlow = async (
 export const followThunkCreator = (userId: number): ThunkType =>
   async (dispatch) => {
     const apiMethod = usersAPI.follow.bind(usersAPI);
-    _followUnfollowFlow(dispatch, userId, apiMethod, usersActions.follow);
+    await _followUnfollowFlow(dispatch, userId, apiMethod, usersActions.follow);
   };
 
 export const unfollowThunkCreator = (userId: number): ThunkType =>
   async (dispatch) => {
     const apiMethod = usersAPI.unfollow.bind(usersAPI);
-    _followUnfollowFlow(dispatch, userId, apiMethod, usersActions.unfollow);
+    await _followUnfollowFlow(dispatch, userId, apiMethod, usersActions.unfollow);
   };
