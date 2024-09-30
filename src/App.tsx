@@ -24,11 +24,11 @@ const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsCo
   )
 );
 
-const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer")
-  .then(module => ({
-    default: module.ProfileContainer
-  }))
-);
+// const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer")
+//   .then(module => ({
+//     default: module.ProfileContainer
+//   }))
+// );
 
 type MapPropsType = ReturnType<typeof mapStateToProps>;
 type DispatchPropsType = {
@@ -59,8 +59,8 @@ class AppClass extends React.Component<MapPropsType & DispatchPropsType> {
         <NavBar/>
         <div className='app-content'>
           <Routes>
-            <Route Component={withSuspense(ProfileContainer)} path="/"/>
-            <Route Component={withSuspense(ProfileContainer)} path="/profile/:userId?"/>
+            {/*<Route Component={withSuspense(ProfileContainer)} path="/"/>*/}
+            {/*<Route Component={withSuspense(ProfileContainer)} path="/profile/:userId?"/>*/}
             <Route Component={withSuspense(DialogsContainer)} path="/dialogs/*"/>
             <Route element={<UsersContainer/>} path="/users"/>
             <Route element={<News/>} path="/news"/>

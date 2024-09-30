@@ -1,5 +1,5 @@
 import {API, ApiResponseType} from "./api.ts";
-import {UserType} from "../redux/usersReducer.ts";
+import {UsersFilterType, UserType} from "../redux/usersReducer.ts";
 
 type GetUsersType = {
   items: UserType[],
@@ -8,8 +8,10 @@ type GetUsersType = {
 }
 
 export const usersAPI = {
-  async getUsers(currentPage: number = 1, pageSize: number = 5) {
-    const response = await API.get<GetUsersType>(`users?page=${currentPage}&count=${pageSize}`);
+  async getUsers(currentPage: number = 1, pageSize: number = 5, filter: UsersFilterType) {
+    const response = await API.get<GetUsersType>(
+      `users?page=${currentPage}&count=${pageSize}&term=${filter.term}` + (filter.friend != null ? `&friend=${filter.friend}` : "")
+    );
     return response.data;
   },
 
