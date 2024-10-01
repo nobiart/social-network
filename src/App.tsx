@@ -5,7 +5,6 @@ import {News} from "./components/news/News.tsx";
 import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
 import {HeaderContainer} from "./components/header/HeaderContainer.tsx";
-import {LoginContainer} from "./components/login/Login.tsx";
 import {connect, Provider} from "react-redux";
 import React from "react";
 import {compose} from "redux";
@@ -15,6 +14,7 @@ import {AppStateType, store} from "./redux/reduxStore.ts";
 import {withSuspense} from "./hoc/withSuspense.tsx";
 import {withRouter} from "./hoc/withRouter.tsx";
 import {UsersPage} from "./components/users/UsersPage.tsx";
+import {Login} from "./components/login/Login.tsx";
 
 
 const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsContainer")
@@ -66,7 +66,7 @@ class AppClass extends React.Component<MapPropsType & DispatchPropsType> {
             <Route element={<News/>} path="/news"/>
             <Route element={<Music/>} path="/music"/>
             <Route element={<Settings/>} path="/settings"/>
-            <Route element={<LoginContainer/>} path="/login"/>
+            <Route element={<Login/>} path="/login"/>
             <Route element={<div>404 NOT FOUND</div>} path="*"/>
           </Routes>
         </div>

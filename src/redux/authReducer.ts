@@ -12,7 +12,7 @@ const initialState = {
 }
 
 type AuthStateType = typeof initialState;
-type AuthActionsType = InferActionsTypes<typeof authActions>;
+export type AuthActionsType = InferActionsTypes<typeof authActions>;
 type ThunkType = BaseThunkType<AuthActionsType>;
 
 export const authReducer = (
