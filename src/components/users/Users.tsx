@@ -19,6 +19,15 @@ import {
 } from "../../redux/usersSelectors.ts";
 import {AppDispatch} from "../../redux/reduxStore.ts";
 import {useEffect} from "react";
+import {useSearchParams} from "react-router-dom";
+
+type QueryParamsType = {
+  term?: string;
+  friend?: string;
+  page?: string;
+}
+
+// @TODO Simplify sync query params
 
 export const Users = () => {
   const totalCount = useSelector(getTotalUsersCount);
@@ -30,8 +39,34 @@ export const Users = () => {
 
   const dispatch: AppDispatch<UsersActionsTypes["type"]> = useDispatch();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   useEffect(() => {
-    dispatch(getUsersThunkCreator(currentPage, pageSize, filter)).then();
+    const query: QueryParamsType = {};
+
+    if (!!filter.term) query.term = filter.term;
+    if (filter.friend !== null) query.friend = String(filter.friend);
+    if (currentPage !== 1) query.page = String(currentPage);
+
+    setSearchParams(query);
+  }, [filter, currentPage]);
+
+  useEffect(() => {
+    let actualPage = currentPage;
+    let actualFilter = filter;
+
+    const pageParam = searchParams.get("page");
+    const termParam = searchParams.get("term");
+    const friendParam = searchParams.get("friend");
+
+
+    if (!!pageParam) actualPage = Number(pageParam);
+    if (!!termParam) actualFilter = {...actualFilter, term: termParam};
+    if (!!friendParam) actualFilter = {
+      ...actualFilter,
+      friend: friendParam === "true" ? true : friendParam === "false" ? false : null,
+    };
+    dispatch(getUsersThunkCreator(actualPage, pageSize, actualFilter)).then();
   }, []);
 
   const onChangePage = (pageNumber: number) => {
