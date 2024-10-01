@@ -4,7 +4,6 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {News} from "./components/news/News.tsx";
 import {Music} from "./components/music/Music.tsx";
 import {Settings} from "./components/settings/Settings.tsx";
-import {UsersContainer} from "./components/users/UsersContainer.tsx";
 import {HeaderContainer} from "./components/header/HeaderContainer.tsx";
 import {LoginContainer} from "./components/login/Login.tsx";
 import {connect, Provider} from "react-redux";
@@ -15,6 +14,7 @@ import {Preloader} from "./components/common/preloader/Preloader.tsx";
 import {AppStateType, store} from "./redux/reduxStore.ts";
 import {withSuspense} from "./hoc/withSuspense.tsx";
 import {withRouter} from "./hoc/withRouter.tsx";
+import {UsersPage} from "./components/users/UsersPage.tsx";
 
 
 const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsContainer")
@@ -62,7 +62,7 @@ class AppClass extends React.Component<MapPropsType & DispatchPropsType> {
             {/*<Route Component={withSuspense(ProfileContainer)} path="/"/>*/}
             {/*<Route Component={withSuspense(ProfileContainer)} path="/profile/:userId?"/>*/}
             <Route Component={withSuspense(DialogsContainer)} path="/dialogs/*"/>
-            <Route element={<UsersContainer/>} path="/users"/>
+            <Route element={<UsersPage pageTitle="Самураи"/>} path="/users"/>
             <Route element={<News/>} path="/news"/>
             <Route element={<Music/>} path="/music"/>
             <Route element={<Settings/>} path="/settings"/>

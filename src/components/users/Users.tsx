@@ -1,32 +1,55 @@
 import {User} from "./user/User.tsx";
 import {Pagination} from "../common/pagination/Pagination.tsx";
-import {UsersFilterType, UserType} from "../../redux/usersReducer.ts";
+import {
+  followThunkCreator,
+  getUsersThunkCreator,
+  unfollowThunkCreator,
+  UsersActionsTypes,
+  UsersFilterType,
+} from "../../redux/usersReducer.ts";
 import {UsersSearchForm} from "./UsersSearchForm.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  getCurrentPage,
+  getFollowingProgress,
+  getPageSize,
+  getTotalUsersCount,
+  getUsersFilter,
+  getUsersSelector
+} from "../../redux/usersSelectors.ts";
+import {AppDispatch} from "../../redux/reduxStore.ts";
+import {useEffect} from "react";
 
-type UsersPropsType = {
-  users: UserType[],
-  totalCount: number,
-  pageSize: number,
-  currentPage: number,
-  onChangePage: (page: number) => void,
-  onChangeFilter: (filter: UsersFilterType) => void,
-  follow: (id: number) => void,
-  unfollow: (id: number) => void,
-  isFollowing: number[],
-}
+export const Users = () => {
+  const totalCount = useSelector(getTotalUsersCount);
+  const currentPage = useSelector(getCurrentPage);
+  const pageSize = useSelector(getPageSize);
+  const users = useSelector(getUsersSelector);
+  const filter = useSelector(getUsersFilter);
+  const isFollowing = useSelector(getFollowingProgress);
 
-export const Users = (
-  {
-    users,
-    totalCount,
-    pageSize,
-    currentPage,
-    onChangePage,
-    onChangeFilter,
-    follow,
-    unfollow,
-    isFollowing
-  }: UsersPropsType) => {
+  const dispatch: AppDispatch<UsersActionsTypes["type"]> = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsersThunkCreator(currentPage, pageSize, filter)).then();
+  }, []);
+
+  const onChangePage = (pageNumber: number) => {
+    dispatch(getUsersThunkCreator(pageNumber, pageSize, filter)).then();
+  }
+
+  const onChangeFilter = (filter: UsersFilterType) => {
+    dispatch(getUsersThunkCreator(1, pageSize, filter)).then();
+  }
+
+  const follow = (userId: number) => {
+    dispatch(followThunkCreator(userId)).then();
+  }
+
+  const unfollow = (userId: number) => {
+    dispatch(unfollowThunkCreator(userId)).then();
+  }
+
   return (
     <>
       <Pagination

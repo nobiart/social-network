@@ -13,33 +13,36 @@ export type UserType = {
   followed: boolean;
 }
 
-// type UsersStateType = {
-//   users: UserType[];
-//   pageSize: number;
-//   totalCount: number;
-//   currentPage: number;
-//   isFetching: boolean;
-//   isFollowingInProgress: number[]; // array of users IDs
-// }
+type UsersStateType = {
+  users: UserType[];
+  pageSize: number;
+  totalCount: number;
+  currentPage: number;
+  filter: UsersFilterType,
+  isFetching: boolean;
+  isFollowingInProgress: number[]; // array of users IDs
+}
 
+export type UsersFilterType = {
+  term: string,
+  friend: boolean | null,
+}
 
-const initialState = {
-  users: [] as UserType[],
+const initialState: UsersStateType = {
+  users: [],
   pageSize: 10,
   totalCount: 0,
   currentPage: 1,
   filter: {
     term: "",
-    friend: null as (boolean | null),
+    friend: null,
   },
   isFetching: false,
-  isFollowingInProgress: [] as number[], // array of users IDs
+  isFollowingInProgress: [], // array of users IDs
 }
 
-export type UsersStateType = typeof initialState;
-export type UsersFilterType = typeof initialState.filter;
-type UsersActionsTypes = InferActionsTypes<typeof usersActions>;
-type ThunkType = BaseThunkType<UsersActionsTypes>;
+export type UsersActionsTypes = InferActionsTypes<typeof usersActions>;
+export type UsersThunkType = BaseThunkType<UsersActionsTypes>;
 
 export const usersReducer = (state = initialState, action: UsersActionsTypes): UsersStateType => {
   switch (action.type) {
@@ -83,7 +86,7 @@ export const usersReducer = (state = initialState, action: UsersActionsTypes): U
         ...state,
         isFollowingInProgress: action.isFetching
           ? [...state.isFollowingInProgress, action.userId]
-          : state.isFollowingInProgress.filter((id: number) => id !== action.userId)
+          : state.isFollowingInProgress.filter((id) => id !== action.userId)
       }
     default:
       return state;
@@ -105,8 +108,8 @@ export const usersActions = {
   } as const),
 }
 
-export const getUsersThunkCreator = (page: number, pageSize: number, filter: UsersFilterType): ThunkType =>
-  async (dispatch) => {
+export const getUsersThunkCreator = (page: number, pageSize: number, filter: UsersFilterType): UsersThunkType =>
+  async (dispatch: Dispatch<UsersActionsTypes>) => {
     dispatch(usersActions.toggleFetching(true));
     dispatch(usersActions.setCurrentPage(page));
     dispatch(usersActions.setFilter(filter));
@@ -121,7 +124,7 @@ const _followUnfollowFlow = async (
   userId: number,
   apiMethod: (userId: number) => Promise<ApiResponseType>,
   actionCreator: (userId: number) => UsersActionsTypes
-) => {
+): Promise<void> => {
   dispatch(usersActions.toggleFollowing(userId, true));
   const data = await apiMethod(userId);
   if (data.resultCode === 0) {
@@ -130,13 +133,13 @@ const _followUnfollowFlow = async (
   dispatch(usersActions.toggleFollowing(userId, false));
 }
 
-export const followThunkCreator = (userId: number): ThunkType =>
+export const followThunkCreator = (userId: number): UsersThunkType =>
   async (dispatch) => {
     const apiMethod = usersAPI.follow.bind(usersAPI);
     await _followUnfollowFlow(dispatch, userId, apiMethod, usersActions.follow);
   };
 
-export const unfollowThunkCreator = (userId: number): ThunkType =>
+export const unfollowThunkCreator = (userId: number): UsersThunkType =>
   async (dispatch) => {
     const apiMethod = usersAPI.unfollow.bind(usersAPI);
     await _followUnfollowFlow(dispatch, userId, apiMethod, usersActions.unfollow);
