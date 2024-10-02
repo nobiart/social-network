@@ -1,9 +1,9 @@
 // import {describe, test, vitest} from "vitest";
 // import {render} from "@testing-library/react";
-// import {ProfileStatusWithHooks} from "../components/profile/info/ProfileStatusWithHooks.tsx";
+// import {ProfileStatus} from "../components/profile/info/ProfileStatus.tsx";
 // import React from "react";
 
-// describe("ProfileStatusWithHooks", () => {
+// describe("ProfileStatus", () => {
 //   test("status from props in state", () => {
 // const initState = {
 //   status: "test status",
@@ -13,11 +13,11 @@
 //   .spyOn(React, "useState")
 //   .mockImplementationOnce(() => [initState, setState]);
 //
-// render(ProfileStatusWithHooks({status: "test status"}));
-// const {getByTestId} = render(ProfileStatusWithHooks({status: "test status"}));
+// render(ProfileStatus({status: "test status"}));
+// const {getByTestId} = render(ProfileStatus({status: "test status"}));
 // expect(getByTestId("status").innerText).toBe("test status");
 
-// const component = render(ProfileStatusWithHooks({status: "test status"}));
+// const component = render(ProfileStatus({status: "test status"}));
 // component.getByTestId("status")
 // expect(component.getByTestId("status").innerText).toBe("test status");
 // })

@@ -24,8 +24,8 @@ type UsersStateType = {
 }
 
 export type UsersFilterType = {
-  term: string,
-  friend: boolean | null,
+  term?: string,
+  friend?: boolean | null,
 }
 
 const initialState: UsersStateType = {

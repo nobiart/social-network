@@ -10,7 +10,9 @@ type GetUsersType = {
 export const usersAPI = {
   async getUsers(currentPage: number = 1, pageSize: number = 5, filter: UsersFilterType) {
     const response = await API.get<GetUsersType>(
-      `users?page=${currentPage}&count=${pageSize}&term=${filter.term}` + (filter.friend != null ? `&friend=${filter.friend}` : "")
+      `users?page=${currentPage}&count=${pageSize}` +
+      (filter.term ? `&term=${filter.term}` : "") +
+      (filter.friend !== null ? `&friend=${filter.friend}` : "")
     );
     return response.data;
   },
