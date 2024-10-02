@@ -1,55 +1,53 @@
-import React from "react";
+import {useEffect, useState} from "react";
 
-export class ProfileStatus extends React.Component<any, any> {
-  state = {
-    editMode: false,
-    status: this.props.status,
-  };
-
-  onStatusChange = (e: any) => {
-    this.setState({
-      status: e.currentTarget?.value,
-    })
-  }
-
-  activateEditMode = () => {
-    this.setState({editMode: true});
-  }
-
-  deactivateEditMode = () => {
-    this.setState({editMode: false});
-    this.props.updateStatus(this.state.status);
-  }
-
-  componentDidUpdate(prevProps: any) {
-    if (prevProps.status !== this.props.status) {
-      this.setState({
-        status: this.props.status,
-      })
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        {this.state.editMode ? (
-          <div>
-            <input
-              type="text"
-              onChange={this.onStatusChange}
-              onBlur={this.deactivateEditMode}
-              value={this.state.status}
-              autoFocus={true}
-            />
-          </div>
-        ) : (
-          <div>
-            <span onDoubleClick={this.activateEditMode}>
-              {this.props.status.length > 0 ? this.props.status : "No Status"}
-            </span>
-          </div>
-        )}
-      </div>
-    )
-  }
+interface IProfileStatusProps {
+  status: string,
+  updateStatus: (status: string) => void,
 }
+
+// @TODO to debug why the status is resetting after component mounts
+
+export const ProfileStatus = ({status, updateStatus}: IProfileStatusProps) => {
+  const [editMode, setEditMode] = useState(false);
+  const [localStatus, setLocalStatus] = useState(status);
+
+  useEffect(() => {
+    setLocalStatus(status);
+  }, [status]);
+
+  const activateEditMode = () => {
+    setEditMode(true);
+  }
+
+  const deactivateEditMode = () => {
+    setEditMode(false);
+    updateStatus(localStatus);
+  }
+
+  const onChangeStatus = (e: any) => {
+    setLocalStatus(e.target?.value);
+  }
+
+  return (
+    <div>
+      <div><b>Status:</b></div>
+      {editMode ? (
+        <div>
+          <input
+            type="text"
+            onChange={onChangeStatus}
+            onBlur={deactivateEditMode}
+            value={localStatus}
+            autoFocus={true}
+          />
+        </div>
+      ) : (
+        <div>
+            <span onDoubleClick={activateEditMode} data-testid="status">
+              {localStatus?.length > 0 ? localStatus : "No Status"}
+            </span>
+        </div>
+      )}
+    </div>
+  )
+};

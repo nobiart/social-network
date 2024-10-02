@@ -1,7 +1,7 @@
 import s from "./ProfileInfo.module.css";
 import userPic from "../../../assets/username.png";
 import {Preloader} from "../../common/preloader/Preloader.tsx";
-import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks.tsx";
+import {ProfileStatus} from "./ProfileStatus.tsx";
 import {ChangeEvent, useState} from "react";
 import {ProfileDataForm} from "./ProfileDataForm.tsx";
 import {ProfileType} from "../../../redux/profileReducer.ts";
@@ -43,7 +43,7 @@ export const ProfileInfo = ({isOwner, profile, status, updateStatus, savePhoto, 
       {editMode
         ? <ProfileDataForm handleSubmit={onSubmit} profile={profile}/>
         : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => setEditMode(true)}/>}
-      <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
+      <ProfileStatus status={status} updateStatus={updateStatus}/>
     </div>
   )
 };
