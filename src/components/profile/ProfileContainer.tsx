@@ -41,6 +41,19 @@ type withRouterPropsType = {
 
 type ProfileClassPropsType = MapPropsType & MapDispatchPropsType & withRouterPropsType;
 
+// export const ProfilePage = () => {
+//   return (
+//     <Profile
+//       isOwner={!props.router.params.userId}
+//       profile={props.profile}
+//       status={props.status}
+//       updateStatus={props.updateStatus}
+//       savePhoto={props.savePhoto}
+//       saveProfile={props.saveProfile}
+//     />
+//   )
+// }
+
 const ProfileWrapper = (props: ProfileClassPropsType) => {
   const refreshProfile = (userId: number | null, routedUserId?: string) => {
     const combinedUserId: number | null = Number(routedUserId ?? userId);

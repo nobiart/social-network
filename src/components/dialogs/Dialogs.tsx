@@ -1,48 +1,28 @@
 import s from './Dialogs.module.css';
-import {DialogItem} from "./dialogItem/DialogItem.tsx";
+import {Dialog} from "./dialogItem/Dialog.tsx";
 import {Message} from "./message/Message.tsx";
-import {Field, Form, Formik} from "formik";
-import {DialogsMapDispatchType, DialogsMapStateType} from "./DialogsContainer.tsx";
+import {AddMessageForm} from "./AddMessageForm.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, AppStateType} from "../../redux/reduxStore.ts";
+import {dialogsActions, DialogsActionsType} from "../../redux/dialogsReducer.ts";
 
-const AddMessageForm = ({sendMessage}: DialogsMapDispatchType) => {
-  return (
-    <Formik
-      initialValues={{messageText: ""}}
-      onSubmit={(values, {setSubmitting}) => {
-        sendMessage(values.messageText);
-        setSubmitting(false);
-        values.messageText = "";
-      }}
-    >
-      {({values, handleSubmit, handleChange, isSubmitting}) => (
-        <Form onSubmit={handleSubmit}>
-          <Field
-            type="textarea"
-            name="messageText"
-            value={values.messageText}
-            onChange={handleChange}
-            placeholder="Enter your message"
-          />
-          <div>
-            <button type="submit" disabled={isSubmitting}>Send</button>
-          </div>
-        </Form>
-      )}
-    </Formik>
-  )
-};
+export const Dialogs = () => {
+  const dialogs = useSelector((state: AppStateType) => state.dialogsPage.dialogs);
+  const messages = useSelector((state: AppStateType) => state.dialogsPage.messages);
+  const dispatch: AppDispatch<DialogsActionsType["type"]> = useDispatch();
 
-export type DialogsPropsType = DialogsMapStateType & DialogsMapDispatchType;
+  const onSendMessage = (text: string) => {
+    dispatch(dialogsActions.sendMessage(text));
+  }
 
-export const Dialogs = ({dialogs, messages, sendMessage}: DialogsPropsType) => {
   return (
     <div className={s.dialogsContainer}>
       <div className={s.dialogs}>
-        {dialogs.map((d) => <DialogItem key={d.id} id={d.id} name={d.name}/>)}
+        {dialogs.map((d) => <Dialog key={d.id} id={d.id} name={d.name}/>)}
       </div>
       <div className={s.messages}>
         {messages.map((m) => <Message key={m.id} id={m.id} text={m.text}/>)}
-        <AddMessageForm sendMessage={sendMessage}/>
+        <AddMessageForm sendMessage={onSendMessage}/>
       </div>
     </div>
   )

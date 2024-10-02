@@ -18,9 +18,9 @@ import {NavBar} from "./components/navbar/NavBar.tsx";
 
 const {Content, Footer} = Layout;
 
-const DialogsContainer = React.lazy(() => import("./components/dialogs/DialogsContainer")
+const Dialogs = React.lazy(() => import("./components/dialogs/Dialogs")
   .then(module => ({
-      default: module.DialogsContainer
+      default: module.Dialogs
     })
   )
 );
@@ -69,7 +69,7 @@ const App = () => {
             <Routes>
               <Route Component={withSuspense(ProfileContainer)} path="/"/>
               <Route Component={withSuspense(ProfileContainer)} path="/profile/:userId?"/>
-              <Route Component={withSuspense(DialogsContainer)} path="/dialogs/*"/>
+              <Route Component={withSuspense(Dialogs)} path="/dialogs/*"/>
               <Route element={<UsersPage pageTitle="Самураи"/>} path="/users"/>
               <Route element={<News/>} path="/news"/>
               <Route element={<Music/>} path="/music"/>

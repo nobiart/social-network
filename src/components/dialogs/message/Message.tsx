@@ -1,11 +1,11 @@
 import s from "./Message.module.css";
 
-export interface IMessage {
+type MessageItemType = {
   id: number;
   text: string;
 }
 
-export const Message = ({text}: IMessage) => {
+export const Message = ({text}: MessageItemType) => {
   return (
     <div className={s.message}>
       {text}

@@ -24,7 +24,7 @@ const initialState = {
 // }
 
 type DialogsStateType = typeof initialState;
-type DialogsActionsType = InferActionsTypes<typeof dialogsActions>;
+export type DialogsActionsType = InferActionsTypes<typeof dialogsActions>;
 
 export const dialogsReducer = (state = initialState, action: DialogsActionsType): DialogsStateType => {
   switch (action.type) {
