@@ -1,5 +1,5 @@
 import s from './Dialogs.module.css';
-import {Dialog} from "./dialogItem/Dialog.tsx";
+import {Dialog} from "./dialog/Dialog.tsx";
 import {Message} from "./message/Message.tsx";
 import {AddMessageForm} from "./AddMessageForm.tsx";
 import {useDispatch, useSelector} from "react-redux";
