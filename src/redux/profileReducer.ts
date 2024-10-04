@@ -2,11 +2,13 @@ import {ProfilePhotosType} from "./types.ts";
 import {profileAPI} from "../api/profileApi.ts";
 import {BaseThunkType, InferActionsTypes} from "./reduxStore.ts";
 
-// type PostItemType = {
-//   id: number;
-//   message: string;
-//   likes: number;
-// }
+export type FormSubmitStatusType = (status?: { error: string }) => void;
+
+type PostItemType = {
+  id: number;
+  message: string;
+  likes: number;
+}
 
 export type ProfileContactsType = {
   github: string | null;
@@ -21,6 +23,7 @@ export type ProfileContactsType = {
 
 export type ProfileType = {
   userId: number;
+  aboutMe: string;
   lookingForAJob: boolean;
   lookingForAJobDescription: string;
   fullName: string;
@@ -28,14 +31,14 @@ export type ProfileType = {
   photos: ProfilePhotosType;
 }
 
-// export type ProfileStateType = {
-//   posts: PostItemType[] | null;
-//   profile: ProfileType | null;
-//   status: string | null;
-//   profilePhoto: File | null;
-// }
+export type ProfileStateType = {
+  posts: PostItemType[] | null;
+  profile: ProfileType | null;
+  status: string | null;
+  profilePhoto: File | null;
+}
 
-const initialState = {
+const initialState: ProfileStateType = {
   posts: [
     {id: 1, message: "Hi, how are you?", likes: 12},
     {id: 2, message: "It's OK, thanks!", likes: 1},
@@ -43,13 +46,12 @@ const initialState = {
     {id: 4, message: "My nth Post", likes: 5},
     {id: 5, message: "Hello, World!", likes: 8},
   ],
-  profile: null as (ProfileType | null),
+  profile: null,
   status: "",
-  profilePhoto: null as (File | null),
+  profilePhoto: null,
 };
 
-export type ProfileStateType = typeof initialState;
-type ProfileActionsType = InferActionsTypes<typeof profileActions>;
+export type ProfileActionsType = InferActionsTypes<typeof profileActions>;
 type ThunkType = BaseThunkType<ProfileActionsType>;
 
 export const profileReducer = (state = initialState, action: ProfileActionsType): ProfileStateType => {
@@ -126,8 +128,7 @@ export const saveProfilePhotoThunkCreator = (photo?: File): ThunkType => async (
 };
 
 export const saveProfileThunkCreator = (
-  profile: ProfileType, setStatus: (status?: { error: string }
-  ) => void): ThunkType =>
+  profile: ProfileType, setStatus: FormSubmitStatusType): ThunkType =>
   async (dispatch, getState) => {
     const data = await profileAPI.updateProfile(profile);
     const userId = getState().auth.id;

@@ -1,10 +1,10 @@
 import {Field, FieldProps, Form, Formik} from "formik";
-import {ProfileType} from "../../../redux/profileReducer.ts";
+import {FormSubmitStatusType, ProfileType} from "../../../redux/profileReducer.ts";
 import s from "../../common/form/FormControl.module.css";
 
 export type ProfileDataFormProps = {
   profile: ProfileType,
-  handleSubmit: (profile: ProfileType, setStatus: (status?: any) => void) => void;
+  handleSubmit: (profile: ProfileType, setStatus: FormSubmitStatusType) => void;
 }
 
 export const ProfileDataForm = ({profile, handleSubmit}: ProfileDataFormProps) => {

@@ -1,49 +1,25 @@
 import s from './Posts.module.css';
 import {Post} from "./post/Post.tsx";
-import {Form, Formik} from "formik";
-import {TextArea} from "../../common/form/FormControl.tsx";
-import {maxLengthCreator} from "../../../utils/validators.ts";
 import {memo} from "react";
+import {AddPostForm} from "./AddPostForm.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, AppStateType} from "../../../redux/reduxStore.ts";
+import {profileActions, ProfileActionsType} from "../../../redux/profileReducer.ts";
 
-const AddPostForm = (props: any) => {
-  const maxLength = maxLengthCreator(10);
+export const Posts = memo(() => {
+  const posts = useSelector((state: AppStateType) => state.profilePage.posts);
+  const dispatch: AppDispatch<ProfileActionsType["type"]> = useDispatch();
 
-  return (
-    <Formik
-      initialValues={{newPost: ""}}
-      onSubmit={(values, {setSubmitting}) => {
-        console.log(values.newPost);
-        props.onSubmit(values.newPost);
-        setSubmitting(false);
-        values.newPost = "";
-      }}
-    >
-      {({values, handleSubmit, handleChange}) => (
-        <Form onSubmit={handleSubmit}>
-          <div>
-            <TextArea
-              label="Message"
-              name="newPost"
-              type="textarea"
-              value={values.newPost}
-              onChange={handleChange}
-              validate={maxLength}
-            />
-          </div>
-          <button type="submit" className={s.submit}>Add New Post</button>
-        </Form>
-      )}
-    </Formik>
-  )
-}
+  const onAddPost = (newPost: string) => {
+    dispatch(profileActions.addPostActionCreator(newPost));
+  };
 
-export const Posts = memo((props: any) => {
   return (
     <div className={s.container}>
       <h3>My Posts</h3>
-      <AddPostForm onSubmit={props.addPost}/>
+      <AddPostForm onSubmit={onAddPost}/>
       <div className={s.posts}>
-        {props.posts.map((p: any) => <Post key={p.id} {...p} />)}
+        {posts?.map((p) => <Post key={p.id} message={p.message}/>)}
       </div>
     </div>
   )

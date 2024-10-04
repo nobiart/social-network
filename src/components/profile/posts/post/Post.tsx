@@ -2,7 +2,6 @@ import s from './Post.module.css';
 import userPic from '../../../../assets/username.png';
 
 export interface IPostProps {
-  id: string;
   message: string;
   likes?: number;
 }

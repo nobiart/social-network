@@ -8,14 +8,12 @@ import {ProfileType} from "../../../redux/profileReducer.ts";
 
 type ProfileInfoPropsType = {
   isOwner: boolean,
-  profile: ProfileType,
-  status: string,
-  updateStatus: (status: string) => void,
+  profile: ProfileType | null,
   savePhoto: (file?: File) => void;
   saveProfile: (profile: ProfileType, setStatus: (status?: any) => void) => void;
 }
 
-export const ProfileInfo = ({isOwner, profile, status, updateStatus, savePhoto, saveProfile}: ProfileInfoPropsType) => {
+export const ProfileInfo = ({isOwner, profile, savePhoto, saveProfile}: ProfileInfoPropsType) => {
   const [editMode, setEditMode] = useState(false);
 
   // @TODO change async function, move edited prop to BLL
@@ -37,13 +35,12 @@ export const ProfileInfo = ({isOwner, profile, status, updateStatus, savePhoto, 
 
   return (
     <div className={s.infoContainer}>
-
       <img className={s.userImage} src={profile?.photos?.large ?? userPic} alt={profile.fullName}/>
       {isOwner && <div><input type="file" onChange={onAvaSelected}/></div>}
       {editMode
         ? <ProfileDataForm handleSubmit={onSubmit} profile={profile}/>
         : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => setEditMode(true)}/>}
-      <ProfileStatus status={status} updateStatus={updateStatus}/>
+      <ProfileStatus/>
     </div>
   )
 };

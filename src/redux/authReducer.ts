@@ -77,10 +77,10 @@ export const loginThunkCreator = (
   }: AuthLoginRequestType): ThunkType => async (dispatch) => {
   const data = await authAPI.login({email, password, rememberMe, captchaUrl: captcha});
   if (data.resultCode === ResultCodesEnum.SUCCESS) {
-    dispatch(getAuthThunkCreator());
+    await dispatch(getAuthThunkCreator());
   } else {
     if (data.resultCode === ResultCodesEnum.CAPTCHA) {
-      dispatch(getCaptchaUrlThunkCreator());
+      await dispatch(getCaptchaUrlThunkCreator());
     }
 
     const message = data.messages.length > 0 ? data.messages[0] : "Something went wrong";

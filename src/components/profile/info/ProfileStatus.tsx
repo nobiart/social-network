@@ -1,15 +1,22 @@
-import {useEffect, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, AppStateType} from "../../../redux/reduxStore.ts";
+import {ProfileActionsType, updateStatusThunkCreator} from "../../../redux/profileReducer.ts";
+import {Input} from "antd";
 
-interface IProfileStatusProps {
-  status: string,
-  updateStatus: (status: string) => void,
-}
+const {TextArea} = Input;
 
-// @TODO to debug why the status is resetting after component mounts
+export const ProfileStatus = () => {
+  const status = useSelector((state: AppStateType) => state.profilePage.status);
 
-export const ProfileStatus = ({status, updateStatus}: IProfileStatusProps) => {
   const [editMode, setEditMode] = useState(false);
   const [localStatus, setLocalStatus] = useState(status);
+
+  const dispatch: AppDispatch<ProfileActionsType["type"]> = useDispatch();
+
+  const onUpdateStatus = (status: string) => {
+    dispatch(updateStatusThunkCreator(status)).then(() => setEditMode(false));
+  }
 
   useEffect(() => {
     setLocalStatus(status);
@@ -20,11 +27,10 @@ export const ProfileStatus = ({status, updateStatus}: IProfileStatusProps) => {
   }
 
   const deactivateEditMode = () => {
-    setEditMode(false);
-    updateStatus(localStatus);
+    if (localStatus) onUpdateStatus(localStatus);
   }
 
-  const onChangeStatus = (e: any) => {
+  const onChangeStatus = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setLocalStatus(e.target?.value);
   }
 
@@ -33,18 +39,18 @@ export const ProfileStatus = ({status, updateStatus}: IProfileStatusProps) => {
       <div><b>Status:</b></div>
       {editMode ? (
         <div>
-          <input
-            type="text"
+          <TextArea
+            autoSize
+            autoFocus
             onChange={onChangeStatus}
             onBlur={deactivateEditMode}
-            value={localStatus}
-            autoFocus={true}
+            value={localStatus ?? undefined}
           />
         </div>
       ) : (
         <div>
             <span onDoubleClick={activateEditMode} data-testid="status">
-              {localStatus?.length > 0 ? localStatus : "No Status"}
+              {localStatus ?? "No Status"}
             </span>
         </div>
       )}

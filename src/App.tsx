@@ -25,9 +25,9 @@ const Dialogs = React.lazy(() => import("./components/dialogs/Dialogs")
   )
 );
 
-const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer")
+const Profile = React.lazy(() => import("./components/profile/Profile")
   .then(module => ({
-    default: module.ProfileContainer
+    default: module.Profile
   }))
 );
 
@@ -67,8 +67,8 @@ const App = () => {
           <NavBar/>
           <Content style={{padding: '0 24px', minHeight: 280}}>
             <Routes>
-              <Route Component={withSuspense(ProfileContainer)} path="/"/>
-              <Route Component={withSuspense(ProfileContainer)} path="/profile/:userId?"/>
+              <Route Component={withSuspense(Profile)} path="/"/>
+              <Route Component={withSuspense(Profile)} path="/profile/:userId?"/>
               <Route Component={withSuspense(Dialogs)} path="/dialogs/*"/>
               <Route element={<UsersPage pageTitle="Самураи"/>} path="/users"/>
               <Route element={<News/>} path="/news"/>
