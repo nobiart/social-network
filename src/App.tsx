@@ -31,6 +31,12 @@ const Profile = React.lazy(() => import("./components/profile/Profile")
   }))
 );
 
+const Chat = React.lazy(() => import("./components/chat/ChatPage")
+  .then(module => ({
+    default: module.ChatPage
+  }))
+);
+
 const App = () => {
   const {token: {colorBgContainer, borderRadiusLG}} = theme.useToken();
   const dispatch: AppDispatch<AuthActionsType["type"]> = useDispatch();
@@ -75,6 +81,7 @@ const App = () => {
               <Route element={<Music/>} path="/music"/>
               <Route element={<Settings/>} path="/settings"/>
               <Route element={<Login/>} path="/login"/>
+              <Route Component={withSuspense(Chat)} path="/chat"/>
               <Route element={<div>404 NOT FOUND</div>} path="*"/>
             </Routes>
           </Content>

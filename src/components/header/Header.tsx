@@ -12,16 +12,16 @@ const topNav: MenuProps['items'] = [
   },
   {
     key: "2",
-    label: (
-      <Link to="/users">Users</Link>
-    )
+    label: <Link to="/users">Users</Link>
   },
   {
     key: "3",
-    label: (
-      <Link to="/news">News</Link>
-    )
+    label: <Link to="/news">News</Link>
   },
+  {
+    key: "4",
+    label: <Link to="/chat">Chat</Link>
+  }
 ];
 
 export const Header = () => {

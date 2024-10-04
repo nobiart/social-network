@@ -1,0 +1,77 @@
+import {useEffect, useState} from "react";
+
+const ws = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx");
+
+export type ChatMessageType = {
+  message: string,
+  photo: string,
+  userId: number,
+  userName: string,
+}
+
+const ChatMessageItem = ({message}: { message: ChatMessageType }) => {
+  return (
+    <div>
+      <img src={message.photo} alt={message.userName} style={{width: "30px", height: "30px"}}/>
+      <b>{message.userName}</b>
+      <br/>
+      {message.message}
+      <hr/>
+    </div>
+  )
+};
+
+const ChatMessages = () => {
+  const [messages, setMessages] = useState<ChatMessageType[]>([]);
+
+  useEffect(() => {
+    ws.addEventListener("message", (e) => {
+      setMessages((prevState) => ([
+        ...prevState,
+        ...JSON.parse(e.data)
+      ]));
+    });
+  }, []);
+
+  return (
+    <div style={{height: "300px", overflowY: "auto"}}>
+      {messages.map((m, i) => (
+        <ChatMessageItem key={`${m.message}::${m.userName}::${i}`} message={m}/>
+      ))}
+    </div>
+  )
+};
+
+const AddChatMessageForm = () => {
+  const [message, setMessage] = useState("");
+
+  const sendMessage = () => {
+    if (!message) return;
+    ws.send(message);
+    setMessage("");
+  };
+
+  return (
+    <div>
+      <div>
+        <textarea value={message} onChange={(e) => setMessage(e.target.value)}/>
+      </div>
+      <button onClick={sendMessage}>Send</button>
+    </div>
+  )
+};
+
+const Chat = () => {
+  return (
+    <>
+      <h2>Chat</h2>
+      <hr/>
+      <ChatMessages/>
+      <AddChatMessageForm/>
+    </>
+  )
+};
+
+export const ChatPage = () => {
+  return <Chat/>;
+};
