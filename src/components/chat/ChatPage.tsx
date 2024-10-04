@@ -1,7 +1,5 @@
 import {useEffect, useState} from "react";
 
-const ws = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx");
-
 export type ChatMessageType = {
   message: string,
   photo: string,
@@ -21,17 +19,22 @@ const ChatMessageItem = ({message}: { message: ChatMessageType }) => {
   )
 };
 
-const ChatMessages = () => {
+const ChatMessages = ({wsChannel}: { wsChannel: WebSocket | null }) => {
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
 
   useEffect(() => {
-    ws.addEventListener("message", (e) => {
+    let messageHandler = (e: MessageEvent) => {
       setMessages((prevState) => ([
         ...prevState,
         ...JSON.parse(e.data)
       ]));
-    });
-  }, []);
+    };
+    wsChannel?.addEventListener("message", messageHandler);
+
+    return () => {
+      wsChannel?.removeEventListener("message", messageHandler);
+    }
+  }, [wsChannel]);
 
   return (
     <div style={{height: "300px", overflowY: "auto"}}>
@@ -42,12 +45,22 @@ const ChatMessages = () => {
   )
 };
 
-const AddChatMessageForm = () => {
+const AddChatMessageForm = ({wsChannel}: { wsChannel: WebSocket | null }) => {
   const [message, setMessage] = useState("");
+  const [readyStatus, setReadyStatus] = useState<"pending" | "ready">("pending");
+
+  useEffect(() => {
+    let openHandler = () => setReadyStatus("ready");
+    wsChannel?.addEventListener("open", openHandler);
+
+    return () => {
+      wsChannel?.removeEventListener("open", openHandler);
+    }
+  }, [wsChannel]);
 
   const sendMessage = () => {
     if (!message) return;
-    ws.send(message);
+    wsChannel?.send(message);
     setMessage("");
   };
 
@@ -56,18 +69,41 @@ const AddChatMessageForm = () => {
       <div>
         <textarea value={message} onChange={(e) => setMessage(e.target.value)}/>
       </div>
-      <button onClick={sendMessage}>Send</button>
+      <button disabled={wsChannel !== null || readyStatus !== "ready"} onClick={sendMessage}>Send</button>
     </div>
   )
 };
 
 const Chat = () => {
+  const [wsChannel, setWsChannel] = useState<WebSocket | null>(null);
+
+  useEffect(() => {
+    let ws: WebSocket | null = null;
+    const closeHandler = () => {
+      console.log("CLOSE WS");
+      setTimeout(createChannel, 3000);
+    };
+    const createChannel = () => {
+      ws?.removeEventListener("open", closeHandler);
+      ws?.close();
+      ws = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx");
+      ws.addEventListener("close", closeHandler);
+      setWsChannel(ws);
+    }
+    createChannel();
+
+    return () => {
+      ws?.removeEventListener("open", closeHandler);
+      ws?.close();
+    }
+  }, []);
+
   return (
     <>
       <h2>Chat</h2>
       <hr/>
-      <ChatMessages/>
-      <AddChatMessageForm/>
+      <ChatMessages wsChannel={wsChannel}/>
+      <AddChatMessageForm wsChannel={wsChannel}/>
     </>
   )
 };
